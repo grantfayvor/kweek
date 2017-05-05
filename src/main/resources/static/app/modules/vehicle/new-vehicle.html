@@ -1,0 +1,151 @@
+<!-- page content -->
+<div class="col-md-12 col-sm-12 col-xs-12">
+	<div class="" role="main">
+		<div class="">
+			<div class="page-title">
+				<div class="title_left">
+					<h3>Register New Vehicle</h3>
+				</div>
+
+				<div class="title_right">
+					<div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right top_search">
+						<div class="input-group">
+							<input type="text" class="form-control" placeholder="Search for...">
+							<span class="input-group-btn">
+                              <button class="btn btn-default" type="button">Go!</button>
+                          </span>
+						</div>
+					</div>
+				</div>
+
+			</div>
+			<div class="clearfix"></div>
+
+			<div class="row">
+
+				<div class="col-md-12 col-sm-12 col-xs-12">
+					<div class="x_panel">
+						<div class="x_title">
+							<ul class="nav navbar-right panel_toolbox">
+								<li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+								</li>
+								<li class="dropdown">
+									<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+									<ul class="dropdown-menu" role="menu">
+										<li><a href="#">Settings 1</a>
+										</li>
+										<li><a href="#">Settings 2</a>
+										</li>
+									</ul>
+								</li>
+								<li><a class="close-link"><i class="fa fa-close"></i></a>
+								</li>
+							</ul>
+							<div class="clearfix"></div>
+						</div>
+						<div class="x_content">
+
+
+							<!-- Smart Wizard -->
+							<!--<form class="form-horizontal form-label-left input_mask" enctype="multipart/form-data" data-ng-submit="addNewVehicle()" novalidate>-->
+							<form class="form-horizontal form-label-left" enctype="multipart/form-data" data-ng-submit="addNewVehicle()" novalidate>
+								<div id="wizard" class="form_wizard wizard_horizontal">
+									<ul class="wizard_steps">
+										<li>
+											<a href="#step-1">
+												<span class="step_no">1</span>
+												<span class="step_descr">
+                                              Step 1<br />
+                                          </span>
+											</a>
+										</li>
+										<li>
+											<a href="#step-2">
+												<span class="step_no">2</span>
+												<span class="step_descr">
+                                              Step 2<br />
+                                              <small>Upload Vehicle image</small>
+                                          </span>
+											</a>
+										</li>
+										<li>
+											<a href="#step-3">
+												<span class="step_no">3</span>
+												<span class="step_descr">
+                                              Step 3<br />
+                                              <small>Vehicle description</small>
+                                          </span>
+											</a>
+										</li>
+									</ul>
+									<div id="step-1">
+										<div class="x_content">
+
+											<div class="col-md-8 col-sm-8 col-xs-12 form-group has-feedback">
+												<input type="text" class="form-control has-feedback-left" id="inputSuccess2" data-ng-model="new_vehicle.brand" placeholder="Vehicle Brand">
+												<span class="fa fa-user form-control-feedback left" aria-hidden="true"></span>
+											</div>
+
+											<div class="col-md-8 col-sm-8 col-xs-12 form-group has-feedback">
+												<input type="text" class="form-control has-feedback-left" id="inputSuccess3" data-ng-model="new_vehicle.type" placeholder="Vehicle Type">
+												<span class="fa fa-envelope form-control-feedback left" aria-hidden="true"></span>
+											</div>
+
+											<div class="col-md-8 col-sm-8 col-xs-12 form-group has-feedback">
+												<input type="text" class="form-control has-feedback-left" id="inputSuccess4" data-ng-model="new_vehicle.model" placeholder="Vehicle Model">
+												<span class="fa fa-envelope form-control-feedback left" aria-hidden="true"></span>
+											</div>
+											<!--<div class="ln_solid"></div>
+                      <div class="form-group">
+                        <div class="col-md-9 col-sm-9 col-xs-12 col-md-offset-3">
+                          <button type="button" class="btn btn-primary">Cancel</button>
+						   <button class="btn btn-primary" type="reset">Reset</button>
+                          <button type="submit" class="btn btn-success">Next</button>
+                        </div>
+                      </div>-->
+
+
+										</div>
+									</div>
+									<div id="step-2">
+										<h2 class="StepTitle">Upload Vehicle image</h2>
+										<!--<div class="x_content">
+											<form action="form_upload.html" class="dropzone"></form>
+											<br />
+											<br />
+											<br />
+											<br />
+										</div>-->
+									</div>
+									<div id="step-3">
+										<h2 class="StepTitle">Vehicle Description</h2>
+										<div class="x_content">
+											<div class="ln_solid"></div>
+											<div class="form-group">
+												<div class="col-md-9 col-sm-9 col-xs-12">
+													<textarea class="resizable_textarea form-control" data-ng-model="new_vehicle.description" placeholder="This text area automatically resizes its height as you fill in more text courtesy of autosize-master it out..."></textarea>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</form>
+							<!-- End SmartWizard Content -->
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- /page content -->
+
+<!-- jQuery Smart Wizard -->
+<script src="/vendors/jQuery-Smart-Wizard/js/jquery.smartWizard.js"></script>
+
+<script type="text/javascript">
+  $(document).ready(function() {
+      // Initialize Smart Wizard
+        $('#wizard').smartWizard({hideButtonsOnDisabled: true});
+  }); 
+</script>

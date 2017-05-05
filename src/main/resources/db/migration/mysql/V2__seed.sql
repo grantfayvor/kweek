@@ -1,0 +1,2 @@
+INSERT INTO user(id, first_name, last_name, user_name, password, email, phone_number, account_type)
+VALUES(1, "admin", "admin", "admin", "$2a$05$JX/LWG1y65Sjz/0xqAAnHep6Nqp6Cr3YEPdk9oq4ePQiGobXoQW/W", "admin@email.com", "08080695704", "ADMIN");
