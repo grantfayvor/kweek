@@ -1,12 +1,14 @@
 package com.kweek.controller;
 
 import com.kweek.model.Reservation;
+import com.kweek.model.User;
 import com.kweek.service.ReservationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpSession;
+import java.util.List;
 
 /**
  * Created by Harrison on 2017-01-24.
@@ -24,9 +26,19 @@ public class ReservationController extends AbstractController<Reservation>{
         super(reservationService);
     }
 
-    @RequestMapping("/{userId}")
+    @RequestMapping("/user")
     @ResponseBody
-    public Reservation getUserReservation(@PathVariable("userId") long id){
-        return reservationService.findUserReservation(id);
+    public List<Reservation> getUserReservation(HttpSession httpSession){
+        Object user = httpSession.getAttribute("sessionUser");
+        if(user instanceof User) return reservationService.findUserReservation(((User) user));
+        else return null;
+    }
+
+    @RequestMapping(value = "/new-reservation", method = RequestMethod.POST)
+    @ResponseBody
+    public Boolean newReservation(@RequestBody Reservation reservation, HttpSession httpSession){
+        Object user = httpSession.getAttribute("sessionUser");
+        if (user instanceof User) reservation.setUser((User) user);
+        return reservationService.save(reservation) != null;
     }
 }

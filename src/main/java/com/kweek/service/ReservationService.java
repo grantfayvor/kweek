@@ -2,6 +2,7 @@ package com.kweek.service;
 
 import com.kweek.config.KweekLoggerFactory;
 import com.kweek.model.Reservation;
+import com.kweek.model.User;
 import com.kweek.repository.ReservationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -20,8 +21,8 @@ public class ReservationService extends KweekLoggerFactory implements ServiceInt
     @Autowired
     private ReservationRepository reservationRepository;
 
-    public Reservation findUserReservation(long id){
-        return reservationRepository.findByUserId(id);
+    public List<Reservation> findUserReservation(User user){
+        return reservationRepository.findByUser(user);
     }
 
     @Override

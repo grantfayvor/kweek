@@ -1,3 +1,6 @@
+<!-- bootstrap-daterangepicker -->
+<link href="/vendors/bootstrap-daterangepicker/daterangepicker.css" rel="stylesheet">
+
 <div class="row">
 	<div class="page-title">
 		<div class="title_left">
@@ -39,32 +42,77 @@
 					</ul>
 					<div class="clearfix"></div>
 				</div>
+				<!--PUT YOUR FORM CONTENT IN THIS DIV-->
 				<div class="x_content">
-					<form class="form-horizontal form-label-left" novalidate>
-						<div class="col-md-55">
-							<div class="thumbnail">
-								<div class="image view view-first">
-									<img style="width: 100%; display: block;" src="images/media.jpg" alt="image" />
-									<div class="mask">
-										<p>Your Text</p>
-										<div class="tools tools-bottom">
-											<a href="#"><i class="fa fa-link"></i></a>
-											<a href="#"><i class="fa fa-pencil"></i></a>
-											<a href="#"><i class="fa fa-times"></i></a>
+					<div class="well" style="overflow: auto">
+						<form class="form-horizontal form-label-left" novalidate>
+							<fieldset>
+								<div class="form-group">
+									<label class="control-label col-md-4 col-sm-4 col-xs-12" for="reservation">Reservation Period <span class="required">*</span></label>
+									<div class="col-md-8 col-sm-8 col-xs-12">
+										<div class="controls">
+											<div class="input-prepend input-group">
+												<span class="add-on input-group-addon"><i class="glyphicon glyphicon-calendar fa fa-calendar"></i></span>
+												<input type="text" style="width: 200px" name="reservation" data-ng-model="new_reservation.reservation" id="reservation" class="form-control"
+													value="01/01/2016 - 01/25/2016" placeholder="start date - end date" />
+											</div>
 										</div>
 									</div>
 								</div>
-								<div class="caption">
-									<p>Snow and Ice Incoming for the South</p>
+							</fieldset>
+							<div class="form-group">
+								<label class="control-label col-md-4 col-sm-4 col-xs-12" for="description">Description <span class="required">*</span></label>
+								<div class="col-md-8 col-sm-8 col-xs-12">
+									<textarea id="description" class="resizable_textarea form-control" data-ng-model="new_reservation.description" placeholder="Enter the details about the reservation here"></textarea>
+								</div>
+							</div>
+							<div class="ln_solid"></div>
+							<div class="form-group">
+								<div class="col-md-8 col-sm-8 col-xs-12 col-md-offset-3">
+									<button type="submit" class="btn btn-success pull-right" data-ng-click="addNewReservation()">Submit</button>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+			<!-- the date range picker doesn't seem to work without this...  no idea why though-->
+			<div class="container cropper">
+				<div class="row">
+					<div class="col-md-9 docs-buttons">
+						<div class="modal fade docs-cropped" id="getCroppedCanvasModal" aria-hidden="true" aria-labelledby="getCroppedCanvasTitle"
+							role="dialog" tabindex="-1">
+							<div class="modal-dialog">
+								<div class="modal-content">
+									<div class="modal-header">
+										<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+										<h4 class="modal-title" id="getCroppedCanvasTitle">Cropped</h4>
+									</div>
+									<div class="modal-body"></div>
+									<div class="modal-footer">
+										<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+										<a class="btn btn-primary" id="download" href="javascript:void(0);" download="cropped.png">Download</a>
+									</div>
 								</div>
 							</div>
 						</div>
-						<div class="item input-group center-margin col-md-6 col-sm-6 col-xs-12">
-							<textarea type="text" class="form-control" aria-describedby="description-addon" placeholder="description">Reservation Description</textarea>
-						</div>
-					</form>
+					</div>
 				</div>
 			</div>
 		</div>
 	</div>
 </div>
+
+<!-- bootstrap-daterangepicker -->
+<script src="/vendors/moment/min/moment.min.js"></script>
+<script src="/vendors/bootstrap-daterangepicker/daterangepicker.js"></script>
+
+
+<script type="text/javascript">
+	$(document).ready(function() {
+      	// Initialize daterangepicker
+		$('#reservation').daterangepicker(null, function(start, end, label) {
+			console.log(start.toISOString(), end.toISOString(), label);
+		});
+  	});
+</script>

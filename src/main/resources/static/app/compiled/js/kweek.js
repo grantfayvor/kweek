@@ -38312,11 +38312,11 @@ app.service('MainService', ['APIService', function (APIService) {
 }]);
 ;app.controller('ReservationController', ['$scope', '$rootScope', 'ReservationService', function ($scope, $rootScope, ReservationService){
         
-    $scope.user_reservation = {};
+    $scope.user_reservations = [];
 
-    $scope.getCurrentReservation = function () {
-        ReservationService.getUserReservation($rootScope.userId, function (response) {
-            $scope.user_reservation = response.data;
+    $scope.getUserReservation = function () {
+        ReservationService.getUserReservation(function (response) {
+            $scope.user_reservations = response.data;
         }, function (data, status) {
             console.log("error occured while fetching user reservations");
         });
@@ -38328,12 +38328,16 @@ app.service('ReservationService', ['APIService', function (APIService) {
     
     var KWEEK_HOST = "http://localhost:9080";
 
-    this.getUserReservation = function (userId, successHandler, errorHandler) {
-        APIService.get(KWEEK_HOST + "/api/reservation/{" + userId + "}", successHandler, errorHandler);
+    this.getUserReservation = function (successHandler, errorHandler) {
+        APIService.get(KWEEK_HOST + "/api/reservation/user", successHandler, errorHandler);
     }; 
 
     this.getAllReservations = function (successHandler, errorHandler) {
         APIService.get(KWEEK_HOST + "/api/reservation/", successHandler, errorHandler);
+    };
+
+    this.newReservation = function (reservation, successHandler, errorHandler) {
+        APIService.post(KWEEK_HOST + "/api/reservation/new-reservation", reservation, successHandler, errorHandler);
     };
 
 }]);;app.controller('UserController', ['$rootScope', '$scope', '$location', 'UserService', function ($rootScope, $scope, $location, UserService) {
@@ -38350,12 +38354,13 @@ app.service('ReservationService', ['APIService', function (APIService) {
 
 app.service('UserService', ['APIService', function (APIService) {
 
-}]);;app.controller('VehicleController', ['$scope', '$rootScope', 'VehicleService', function ($scope, $rootScope, VehicleService) {
+}]);;app.controller('VehicleController', ['$scope', '$rootScope', 'VehicleService', 'ReservationService', function ($scope, $rootScope, VehicleService, ReservationService) {
 
     $scope.new_vehicle = {};
     $scope.all_vehicles = [];
     $scope.all_Vehicle_categories = [];
     $scope.new_reservation = {};
+    $scope.vehicle_details = {};
     $scope.page_title = "view-vehicles";
 
 
@@ -38383,17 +38388,26 @@ app.service('UserService', ['APIService', function (APIService) {
         });
     };
 
+    $scope.makeReservation = function () {
+        $scope.page_title = "make-reservation";
+        $scope.new_reservation.vehicle = $scope.vehicle_details;
+    };
+
     $scope.addNewReservation = function () {
         ReservationService.newReservation($scope.new_reservation, function (response) {
             console.log("added new reservation");
         }, function (data, status) {
-
+            console.log("error in adding new reservation");
         });
     };
 
     $scope.showVehicleDetails = function (vehicle) {
         $scope.page_title = "vehicle-details";
         $scope.vehicle_details = vehicle;
+    };
+
+    $scope.showAllVehicles = function () {
+        $scope.page_title = "view-vehicles";
     };
 
 
@@ -38417,10 +38431,6 @@ app.service('VehicleService', ['APIService', function (APIService) {
 
     this.findVehicle = function (vehicleDetail, successHandler, errorHandler) {
         APIService.get(KWEEK_HOST + '/api/vehicle/{param}', successHandler, errorHandler);
-    };
-
-    this.newReservation = function (reservationDetails, successHandler, errorHandler) {
-        APIService.post(KWEEK_HOST + "/api/reservation/new", reservationDetails, successHandler, errorHandler);
     };
 
 }]);

@@ -4,7 +4,8 @@ CREATE TABLE IF NOT EXISTS vehicle (
     type                        VARCHAR(50)  NOT NULL,
     model                       VARCHAR(50)  NOT NULL,
     image_location              VARCHAR(255) NOT NULL,
-    description                 VARCHAR(100) NOT NULL
+    description                 VARCHAR(100) NOT NULL,
+    cost                        VARCHAR(25)  NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS user (
@@ -21,13 +22,13 @@ CREATE TABLE IF NOT EXISTS user (
 CREATE TABLE IF NOT EXISTS reservation (
     id                           INTEGER      NOT NULL PRIMARY KEY AUTO_INCREMENT,
     user_id                      INTEGER      NOT NULL,
-    vehicles_id                  INTEGER      NOT NULL,
-    reservation_date             DATETIME     NOT NULL,
-    total_cost                   INTEGER      NOT NULL,
+    vehicle_id                   INTEGER      NOT NULL,
+    reservation                  VARCHAR(50)      NOT NULL,
+    description                  VARCHAR(50)      NOT NULL,
     FOREIGN KEY (user_id) REFERENCES user (id)
     ON UPDATE CASCADE
     ON DELETE CASCADE,
-    FOREIGN KEY (vehicles_id) REFERENCES vehicle (id)
+    FOREIGN KEY (vehicle_id) REFERENCES vehicle (id)
     ON UPDATE CASCADE
     ON DELETE CASCADE
 );

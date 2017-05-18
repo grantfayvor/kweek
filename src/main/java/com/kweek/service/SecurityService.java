@@ -22,12 +22,12 @@ public class SecurityService extends KweekLoggerFactory{
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    public boolean authenticate(String username, String password) throws AuthenticationException{
+    public UserDetails authenticate(String username, String password) throws AuthenticationException{
         UserDetails authenticatedUser = this.confirmUserPassword(username, password);
         if (authenticatedUser != null){
             UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(authenticatedUser, password, authenticatedUser.getAuthorities());
             SecurityContextHolder.getContext().setAuthentication(authenticationToken);
-            return true;
+            return authenticatedUser;
         } else {
             logger.config("=== " +username+ " could not be authenticated in the kweek system ===");
             throw new InternalAuthenticationServiceException(username + " could not be authenticated in the kweek system");

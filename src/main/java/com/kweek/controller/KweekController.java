@@ -45,8 +45,9 @@ public class KweekController {
     @RequestMapping(value = "/authenticate", method = RequestMethod.POST)
     @ResponseBody
     public boolean authenticate(@RequestBody User user, HttpSession httpSession){
-        if(securityService.authenticate(user.getUsername(), user.getPassword())){
-            httpSession.setAttribute("sessionUser", user.getUsername());
+        User authenticatedUser = (User) securityService.authenticate(user.getUsername(), user.getPassword());
+        if(authenticatedUser != null){
+            httpSession.setAttribute("sessionUser", authenticatedUser);
             return true;
         } else {
             return false;

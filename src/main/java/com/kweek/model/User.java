@@ -6,7 +6,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import javax.validation.constraints.Pattern;
+import java.io.Serializable;
 import java.util.Collection;
+import java.util.List;
 
 /**
  * Created by Harrison on 2017-01-21.
@@ -14,7 +16,7 @@ import java.util.Collection;
 
 @Entity
 @Table
-public class User implements UserDetails {
+public class User implements UserDetails, Serializable {
 
     @Id
     @GeneratedValue
@@ -39,6 +41,9 @@ public class User implements UserDetails {
     @Column
     @Enumerated(EnumType.STRING)
     private AccountType accountType;
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    @Transient
+    private List<Reservation> reservations;
 
     /**
      * Getter for property 'id'.
@@ -200,6 +205,24 @@ public class User implements UserDetails {
      */
     public void setAccountType(AccountType accountType) {
         this.accountType = accountType;
+    }
+
+    /**
+     * Getter for property 'reservations'.
+     *
+     * @return Value for property 'reservations'.
+     */
+    public List<Reservation> getReservations() {
+        return reservations;
+    }
+
+    /**
+     * Setter for property 'reservations'.
+     *
+     * @param reservations Value to set for property 'reservations'.
+     */
+    public void setReservations(List<Reservation> reservations) {
+        this.reservations = reservations;
     }
 
     @Override

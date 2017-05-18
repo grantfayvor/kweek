@@ -2,6 +2,7 @@ package com.kweek.model;
 
 import javax.persistence.*;
 import javax.validation.constraints.Null;
+import java.io.Serializable;
 import java.util.Arrays;
 
 /**
@@ -10,7 +11,7 @@ import java.util.Arrays;
 
 @Entity
 @Table
-public class Vehicle {
+public class Vehicle implements Serializable{
 
     @Id
     @GeneratedValue
@@ -28,6 +29,8 @@ public class Vehicle {
     private String imageLocation;
     @Column
     private String description;
+    @Column
+    private String cost;
 
     /**
      * Getter for property 'id'.
@@ -153,6 +156,24 @@ public class Vehicle {
      */
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    /**
+     * Getter for property 'cost'.
+     *
+     * @return Value for property 'cost'.
+     */
+    public String getCost() {
+        return cost;
+    }
+
+    /**
+     * Setter for property 'cost'.
+     *
+     * @param cost Value to set for property 'cost'.
+     */
+    public void setCost(String cost) {
+        this.cost = cost;
     }
 
     @Override

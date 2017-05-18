@@ -8,6 +8,7 @@ import javax.persistence.*;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.validation.constraints.Pattern;
+import java.io.Serializable;
 
 /**
  * Created by Harrison on 2017-01-21.
@@ -15,14 +16,13 @@ import javax.validation.constraints.Pattern;
 
 @Entity
 @Table
-public class Payment {
+public class Payment implements Serializable{
 
     @Id
     @GeneratedValue
     private long id;
     @OneToOne
     @JoinColumn
-    @Cascade(value = CascadeType.ALL)
     private Reservation reservationId;
     @Column
     @Enumerated(EnumType.STRING)

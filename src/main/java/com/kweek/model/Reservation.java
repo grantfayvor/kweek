@@ -2,13 +2,11 @@ package com.kweek.model;
 
 import org.hibernate.annotations.*;
 import org.hibernate.annotations.CascadeType;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import javax.persistence.Entity;
 import javax.persistence.Table;
-import java.util.Date;
-import java.util.List;
+import java.io.Serializable;
 
 /**
  * Created by Harrison on 2017-01-21.
@@ -16,27 +14,21 @@ import java.util.List;
 
 @Entity
 @Table
-public class Reservation {
+public class Reservation implements Serializable{
 
     @Id
     @GeneratedValue
     private long id;
-    @JoinColumn
-    @OneToOne
-    @Cascade(value = CascadeType.ALL)
-    private User userId;
-    @JoinColumn
-    @OneToMany(fetch = FetchType.LAZY)
-    @Cascade(value = CascadeType.ALL)
-    private List<Vehicle> vehiclesId;
+    @JoinColumn(name = "user_id")
+    @ManyToOne(fetch = FetchType.EAGER)
+    private User user;
+    @JoinColumn(name = "vehicle_id")
+    @OneToOne(fetch = FetchType.EAGER)
+    private Vehicle vehicle;
     @Column
-    @DateTimeFormat(pattern = "yyyy-mm-dd")
-    private Date reservationDate;
-    //add this field to the migration script and also add the setter and getter
-    /*@Column
-    private String description;*/
+    private String reservation;
     @Column
-    private double cost;
+    private String description;
 
     /**
      * Getter for property 'id'.
@@ -57,74 +49,85 @@ public class Reservation {
     }
 
     /**
-     * Getter for property 'userId'.
+     * Getter for property 'user'.
      *
-     * @return Value for property 'userId'.
+     * @return Value for property 'user'.
      */
-    public User getUserId() {
-        return userId;
+    public User getUser() {
+        return user;
     }
 
     /**
-     * Setter for property 'userId'.
+     * Setter for property 'user'.
      *
-     * @param userId Value to set for property 'userId'.
+     * @param user Value to set for property 'user'.
      */
-    public void setUserId(User userId) {
-        this.userId = userId;
+    public void setUser(User user) {
+        this.user = user;
     }
 
     /**
-     * Getter for property 'vehiclesId'.
+     * Getter for property 'vehicle'.
      *
-     * @return Value for property 'vehiclesId'.
+     * @return Value for property 'vehicle'.
      */
-    public List<Vehicle> getVehiclesId() {
-        return vehiclesId;
+    public Vehicle getVehicle() {
+        return vehicle;
     }
 
     /**
-     * Setter for property 'vehiclesId'.
+     * Setter for property 'vehicle'.
      *
-     * @param vehiclesId Value to set for property 'vehiclesId'.
+     * @param vehicle Value to set for property 'vehicle'.
      */
-    public void setVehiclesId(List<Vehicle> vehiclesId) {
-        this.vehiclesId = vehiclesId;
+    public void setVehicle(Vehicle vehicle) {
+        this.vehicle = vehicle;
     }
 
     /**
-     * Getter for property 'reservationDate'.
+     * Getter for property 'reservation'.
      *
-     * @return Value for property 'reservationDate'.
+     * @return Value for property 'reservation'.
      */
-    public Date getReservationDate() {
-        return reservationDate;
+    public String getReservation() {
+        return reservation;
     }
 
     /**
-     * Setter for property 'reservationDate'.
+     * Setter for property 'reservation'.
      *
-     * @param reservationDate Value to set for property 'reservationDate'.
+     * @param reservation Value to set for property 'reservation'.
      */
-    public void setReservationDate(Date reservationDate) {
-        this.reservationDate = reservationDate;
+    public void setReservation(String reservation) {
+        this.reservation = reservation;
     }
 
     /**
-     * Getter for property 'cost'.
+     * Getter for property 'description'.
      *
-     * @return Value for property 'cost'.
+     * @return Value for property 'description'.
      */
-    public double getCost() {
-        return cost;
+    public String getDescription() {
+        return description;
     }
 
     /**
-     * Setter for property 'cost'.
+     * Setter for property 'description'.
      *
-     * @param cost Value to set for property 'cost'.
+     * @param description Value to set for property 'description'.
      */
-    public void setCost(double cost) {
-        this.cost = cost;
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    @Override
+    public String toString() {
+        return "Reservation{" +
+                "id=" + id +
+                ", user=" + user +
+                ", vehicle=" + vehicle +
+                ", reservation='" + reservation + '\'' +
+                ", description='" + description + '\'' +
+                '}';
     }
 }

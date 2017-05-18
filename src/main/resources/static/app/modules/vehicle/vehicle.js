@@ -1,9 +1,10 @@
-app.controller('VehicleController', ['$scope', '$rootScope', 'VehicleService', function ($scope, $rootScope, VehicleService) {
+app.controller('VehicleController', ['$scope', '$rootScope', 'VehicleService', 'ReservationService', function ($scope, $rootScope, VehicleService, ReservationService) {
 
     $scope.new_vehicle = {};
     $scope.all_vehicles = [];
     $scope.all_Vehicle_categories = [];
     $scope.new_reservation = {};
+    $scope.vehicle_details = {};
     $scope.page_title = "view-vehicles";
 
 
@@ -31,17 +32,26 @@ app.controller('VehicleController', ['$scope', '$rootScope', 'VehicleService', f
         });
     };
 
+    $scope.makeReservation = function () {
+        $scope.page_title = "make-reservation";
+        $scope.new_reservation.vehicle = $scope.vehicle_details;
+    };
+
     $scope.addNewReservation = function () {
         ReservationService.newReservation($scope.new_reservation, function (response) {
             console.log("added new reservation");
         }, function (data, status) {
-
+            console.log("error in adding new reservation");
         });
     };
 
     $scope.showVehicleDetails = function (vehicle) {
         $scope.page_title = "vehicle-details";
         $scope.vehicle_details = vehicle;
+    };
+
+    $scope.showAllVehicles = function () {
+        $scope.page_title = "view-vehicles";
     };
 
 
@@ -65,10 +75,6 @@ app.service('VehicleService', ['APIService', function (APIService) {
 
     this.findVehicle = function (vehicleDetail, successHandler, errorHandler) {
         APIService.get(KWEEK_HOST + '/api/vehicle/{param}', successHandler, errorHandler);
-    };
-
-    this.newReservation = function (reservationDetails, successHandler, errorHandler) {
-        APIService.post(KWEEK_HOST + "/api/reservation/new", reservationDetails, successHandler, errorHandler);
     };
 
 }]);
