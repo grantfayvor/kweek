@@ -46,8 +46,8 @@ public class ReservationService extends KweekLoggerFactory implements ServiceInt
     }
 
     @Override
-    public Boolean delete(long id) {
-        return null;
+    public void delete(long id) {
+        reservationRepository.delete(id);
     }
 
     @Override

@@ -41,8 +41,7 @@ public class PaymentService extends KweekLoggerFactory implements ServiceInterfa
     }
 
     @Override
-    public Boolean delete(long id) {
-        return null;
+    public void delete(long id){
     }
 
     @Override

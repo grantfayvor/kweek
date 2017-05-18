@@ -67,8 +67,7 @@ public class UserService extends KweekLoggerFactory implements UserDetailsServic
     }
 
     @Override
-    public Boolean delete(long id) {
-        return null;
+    public void delete(long id) {
     }
 
     @Override

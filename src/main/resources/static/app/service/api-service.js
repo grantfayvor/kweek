@@ -18,8 +18,7 @@ app.service('APIService', ['$http', '$q', function ($http, $q) {
 
     this.delete = function (url, successHandler, errorHandler) {
         $http.delete(url)
-            .success(successHandler)
-            .error(errorHandler);
+            .then(successHandler, errorHandler);
     };
 
     this.put = function (url, data, successHandler, errorHandler) {

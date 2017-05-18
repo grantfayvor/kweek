@@ -19,7 +19,7 @@ public interface ServiceInterface<T> {
 
     Boolean update(T t);
 
-    Boolean delete(long id);
+    void delete(long id);
 
     Boolean delete(T t);
 

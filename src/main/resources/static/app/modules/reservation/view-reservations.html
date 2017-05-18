@@ -73,7 +73,7 @@
                             <td class=" "><span data-ng-bind="reservation.description"></span></td>
                             <td class=" "><span data-ng-bind="reservation.vehicle.cost"></span></td>
                             <td class="a-right a-right "><span></span></td>
-                            <td class=" last"><a href="#"><i class="fa fa-trash"></i> Delete</a>
+                            <td class=" last"><a href="javascript:void(0)" data-ng-click="deleteReservation(reservation.id)"><i class="fa fa-trash"></i> Delete</a>
                             </td>
                           </tr>
                         </tbody>

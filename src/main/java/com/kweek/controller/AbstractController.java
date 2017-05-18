@@ -60,15 +60,15 @@ public abstract class AbstractController<T> {
         return serviceInterface.update(t);
     }
 
-    @RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/delete", method = RequestMethod.DELETE)
     @ResponseBody
-    public Boolean delete(@PathVariable("id") long id) {
-        return serviceInterface.delete(id);
+    public void delete(@RequestParam("id") long id) {
+        serviceInterface.delete(id);
     }
 
-    @RequestMapping(value = "/delete", method = RequestMethod.DELETE)
+    /*@RequestMapping(value = "/delete", method = RequestMethod.DELETE)
     @ResponseBody
     public Boolean delete(@RequestBody T t) {
         return serviceInterface.delete(t);
-    }
+    }*/
 }

@@ -10,6 +10,15 @@ app.controller('ReservationController', ['$scope', '$rootScope', 'ReservationSer
         });
     };
 
+    $scope.deleteReservation = function (reservationId) {
+        ReservationService.deleteReservation(reservationId, function (response) {
+            console.log("reservation has been deleted");
+            $scope.getUserReservation();
+        }, function (response, status) {
+            console.log("error deleting new reservation");
+        });
+    };
+
 }]);
 
 app.service('ReservationService', ['APIService', function (APIService) {
@@ -26,6 +35,10 @@ app.service('ReservationService', ['APIService', function (APIService) {
 
     this.newReservation = function (reservation, successHandler, errorHandler) {
         APIService.post(KWEEK_HOST + "/api/reservation/new-reservation", reservation, successHandler, errorHandler);
+    };
+
+    this.deleteReservation = function (reservationId, successHandler, errorHandler) {
+        APIService.delete(KWEEK_HOST + "/api/reservation/delete?id="+ reservationId, successHandler, errorHandler);
     };
 
 }]);

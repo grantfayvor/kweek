@@ -38243,8 +38243,7 @@ app.config(['$httpProvider', '$cookiesProvider', '$stateProvider', '$urlRouterPr
 
     this.delete = function (url, successHandler, errorHandler) {
         $http.delete(url)
-            .success(successHandler)
-            .error(errorHandler);
+            .then(successHandler, errorHandler);
     };
 
     this.put = function (url, data, successHandler, errorHandler) {
@@ -38322,6 +38321,15 @@ app.service('MainService', ['APIService', function (APIService) {
         });
     };
 
+    $scope.deleteReservation = function (reservationId) {
+        ReservationService.deleteReservation(reservationId, function (response) {
+            console.log("reservation has been deleted");
+            $scope.getUserReservation();
+        }, function (response, status) {
+            console.log("error deleting new reservation");
+        });
+    };
+
 }]);
 
 app.service('ReservationService', ['APIService', function (APIService) {
@@ -38338,6 +38346,10 @@ app.service('ReservationService', ['APIService', function (APIService) {
 
     this.newReservation = function (reservation, successHandler, errorHandler) {
         APIService.post(KWEEK_HOST + "/api/reservation/new-reservation", reservation, successHandler, errorHandler);
+    };
+
+    this.deleteReservation = function (reservationId, successHandler, errorHandler) {
+        APIService.delete(KWEEK_HOST + "/api/reservation/delete?id="+ reservationId, successHandler, errorHandler);
     };
 
 }]);;app.controller('UserController', ['$rootScope', '$scope', '$location', 'UserService', function ($rootScope, $scope, $location, UserService) {
