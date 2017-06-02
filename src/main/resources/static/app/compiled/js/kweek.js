@@ -38160,25 +38160,31 @@ angular.module('ui.router.state')
     ];
 };
 
-/*var loadMap = function () {
+var map;
+
+var loadMap = function () {
+    console.log("loadMap function has just been called");
+    google.maps.visualRefresh = true;
     var mapOptions = {
         center: new google.maps.LatLng(17.240498, 82.287598),
-        zoom: 9,
+        zoom: 13,
         mapTypeId: google.maps.MapTypeId.ROADMAP
     };
-    var map = new google.maps.Map(document.getElementById("google-map"), mapOptions);
-    var marker = new google.maps.Marker({
+    var markerOptions = {
         position: map.getCenter(),
         map: map,
         animation: google.maps.Animation.BOUNCE
-    });
+    };
+    map = new google.maps.Map(document.getElementById("google-map"), mapOptions);
+    var geoMarker = new GeolocationMarker(map);
+    var marker = new google.maps.Marker(markerOptions);
     var infoWindow = new google.maps.InfoWindow({
         content: "current location"
     });
     google.maps.event.addListener(marker, 'click', function () {
         infoWindow.open(map, marker);
     });
-	if(navigator.geolocation){
+	/*if(navigator.geolocation){
 		navigator.geolocation.getCurrentPosition(function(position){
 			var pos = {
 				lat: position.coords.latitude,
@@ -38192,16 +38198,16 @@ angular.module('ui.router.state')
 		});
 	} else{
 		handleLocationError(false, infoWindow, map.getCenter);
-	}
+	}*/
 };
-function handleLocationError(browserHasGeoLocation, infoWindow, pos){
+
+/*function handleLocationError(browserHasGeoLocation, infoWindow, pos){
 	infoWindow.setPosition(pos);
 	infoWindow.setContent(browserHasGeoLocation ? "Error: The GeoLocation service failed." : "Error: Your browser does not support geolocation");
 	infoWindow.open(map);
-};
-
 };*/
 
+loadMap();
 
 var app = angular.module('kweek', ['ngCookies', 'ui.router']);
 
@@ -38219,15 +38225,10 @@ app.config(['$httpProvider', '$cookiesProvider', '$stateProvider', '$urlRouterPr
         $urlRouterProvider.otherwise('/');
 
         $stateProvider
-            /*.state('home', {
+            .state('home', {
                 url: '/',
                 controller: 'MainController',
                 templateUrl: '/app/home.html'
-            })*/
-            .state('home', {
-                url: '/',
-                controller: 'VehicleController',
-                templateUrl: '/app/modules/vehicle/view-vehicles.html'
             })
             .state('view-car-suv', {
                 url: '/vehicles/suv',
