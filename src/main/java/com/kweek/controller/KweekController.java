@@ -3,7 +3,6 @@ package com.kweek.controller;
 import com.kweek.model.AccountType;
 import com.kweek.model.User;
 import com.kweek.service.SecurityService;
-import com.kweek.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -25,8 +24,6 @@ import java.util.Map;
 @RequestMapping("")
 public class KweekController {
 
-    @Autowired
-    private UserService userService;
     @Autowired
     private SecurityService securityService;
 
