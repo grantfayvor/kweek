@@ -34,7 +34,9 @@
 	<link href="/build/css/custom.min.css" rel="stylesheet">
 
 	<!-- Google Maps API -->
-	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBC2k94EGV8e3uVNgElIEUSXa8X-Rfw8ZY&sensor=false"></script>
+	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBC2k94EGV8e3uVNgElIEUSXa8X-Rfw8ZY&sensor=false" async defer></script>
+	<script src="/node_modules/geolocation-marker/geolocation-marker.js"></script>
+
 </head>
 
 <body class="nav-md footer_fixed">
@@ -217,15 +219,14 @@
 			<!-- /page content -->
 
 			<!-- footer content -->
-			<footer>
-				<!--<div class="pull-left" style="margin-left:20%;">
+			<!--<footer>
+				<div class="pull-left" style="margin-left:20%;">
 					copyright &copy; 2017. <a href="#">kweek.com</a>
-				</div>-->
+				</div>
 				<div class="pull-right">
 					Gentelella - Bootstrap Admin Template by <a href="https://colorlib.com">Colorlib</a>
 				</div>
-				<!--<div class="clearfix"></div>-->
-			</footer>
+			</footer>-->
 			<!-- /footer content -->
 		</div>
 	</div>
@@ -279,9 +280,6 @@
 	<script src="/vendors/pnotify/dist/pnotify.js"></script>
 	<script src="/vendors/pnotify/dist/pnotify.buttons.js"></script>
 	<script src="/vendors/pnotify/dist/pnotify.nonblock.js"></script>
-
-	<!--google maps api-->
-	<script src="/node_modules/geolocation-marker/geolocation-marker.js"></script>
 
 	<!-- Custom Theme Scripts -->
 	<script src="/build/js/custom.min.js"></script>

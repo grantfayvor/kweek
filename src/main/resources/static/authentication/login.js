@@ -1,7 +1,7 @@
-var app = angular.module('kweek-login', ['ngCookies']);
+var app = angular.module('kweek-login', []);
 
-app.controller('LoginController', ['$scope', '$rootScope', '$cookies', 'LoginService', function (
-	$scope, $rootScope, $cookies, LoginService) {
+app.controller('LoginController', ['$scope', '$rootScope', 'LoginService', function (
+	$scope, $rootScope, LoginService) {
 
 	var KWEEK_HOST = "http://localhost:9080";
 

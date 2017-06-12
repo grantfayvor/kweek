@@ -14,7 +14,7 @@ var config = function () {
     ];
 };
 
-var map;
+/*var map;
 
 var loadMap = function () {
     console.log("loadMap function has just been called");
@@ -24,13 +24,13 @@ var loadMap = function () {
         zoom: 13,
         mapTypeId: google.maps.MapTypeId.ROADMAP
     };
+    map = new google.maps.Map(document.getElementById("google-map"), mapOptions);
+    var geoMarker = new GeolocationMarker(map);
     var markerOptions = {
         position: map.getCenter(),
         map: map,
         animation: google.maps.Animation.BOUNCE
     };
-    map = new google.maps.Map(document.getElementById("google-map"), mapOptions);
-    var geoMarker = new GeolocationMarker(map);
     var marker = new google.maps.Marker(markerOptions);
     var infoWindow = new google.maps.InfoWindow({
         content: "current location"
@@ -38,7 +38,7 @@ var loadMap = function () {
     google.maps.event.addListener(marker, 'click', function () {
         infoWindow.open(map, marker);
     });
-	/*if(navigator.geolocation){
+	if(navigator.geolocation){
 		navigator.geolocation.getCurrentPosition(function(position){
 			var pos = {
 				lat: position.coords.latitude,
@@ -52,8 +52,8 @@ var loadMap = function () {
 		});
 	} else{
 		handleLocationError(false, infoWindow, map.getCenter);
-	}*/
-};
+	}
+};*/
 
 /*function handleLocationError(browserHasGeoLocation, infoWindow, pos){
 	infoWindow.setPosition(pos);
@@ -61,7 +61,7 @@ var loadMap = function () {
 	infoWindow.open(map);
 };*/
 
-loadMap();
+// loadMap();
 
 var app = angular.module('kweek', ['ngCookies', 'ui.router']);
 

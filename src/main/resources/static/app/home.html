@@ -1,4 +1,5 @@
-<div class="row" onload="loadMap()">
+
+<div class="row" data-ng-init="initialize()">
 
 	<div class="col-md-12 col-sm-12 col-xs-12">
 		<div class="x_panel">
@@ -23,35 +24,7 @@
 			</div>
 			<div class="x_content">
 				<div class="dashboard-widget-content">
-					<div class="col-md-4 hidden-small">
-						<h2 class="line_30">125.7k Views from 60 countries</h2>
-
-						<table class="countries_list">
-							<tbody>
-								<tr>
-									<td>United States</td>
-									<td class="fs15 fw700 text-right">33%</td>
-								</tr>
-								<tr>
-									<td>France</td>
-									<td class="fs15 fw700 text-right">27%</td>
-								</tr>
-								<tr>
-									<td>Germany</td>
-									<td class="fs15 fw700 text-right">16%</td>
-								</tr>
-								<tr>
-									<td>Spain</td>
-									<td class="fs15 fw700 text-right">11%</td>
-								</tr>
-								<tr>
-									<td>Britain</td>
-									<td class="fs15 fw700 text-right">10%</td>
-								</tr>
-							</tbody>
-						</table>
-					</div>
-					<div id="google-map" class="col-md-12 col-lg-10 col-sm-12 col-xs-12" style="height:230px;"></div>
+					<div id="google-map" class="col-md-12 col-lg-12 col-sm-12 col-xs-12" style="height:500px;"></div>
 				</div>
 			</div>
 		</div>
@@ -166,3 +139,34 @@
 	</div>
 </div>
 <!-- end of weather widget -->
+
+<script>
+//var map;
+
+
+/**var initMap = function () {
+    console.log("initMap function has just been called");
+    google.maps.visualRefresh = true;
+	console.log("trying to use google refresh");
+    var mapOptions = {
+        center: new google.maps.LatLng(17.240498, 82.287598),
+        zoom: 13,
+        mapTypeId: google.maps.MapTypeId.ROADMAP
+    };
+    map = new google.maps.Map(document.getElementById("google-map"), mapOptions);
+    var geoMarker = new GeolocationMarker(map);
+	var markerOptions = {
+        position: map.getCenter(),
+        map: map,
+        animation: google.maps.Animation.BOUNCE
+    };
+    var marker = new google.maps.Marker(markerOptions);
+    var infoWindow = new google.maps.InfoWindow({
+        content: "current location"
+    });
+    google.maps.event.addListener(marker, 'click', function () {
+        infoWindow.open(map, marker);
+    });
+};*/
+//google.maps.event.addDomListener(window, 'load',initMap);
+</script>

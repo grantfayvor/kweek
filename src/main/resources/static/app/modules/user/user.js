@@ -5,7 +5,7 @@ app.controller('UserController', ['$rootScope', '$scope', '$location', 'UserServ
     $scope.credentials = {};
 
     $scope.initialize = function () {
-        authenticate();
+//        authenticate();
     };
 
 }]);
