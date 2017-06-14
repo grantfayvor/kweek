@@ -20,7 +20,7 @@ app.controller('MainController', ['$scope', '$rootScope', 'MainService', functio
         var markerOptions = {
             position: map.getCenter(),
             map: map,
-            animation: google.maps.Animation.BOUNCE
+            animation: google.maps.Animation.Drop
         };
         var marker = new google.maps.Marker(markerOptions);
         if (navigator.geolocation) {
@@ -32,6 +32,7 @@ app.controller('MainController', ['$scope', '$rootScope', 'MainService', functio
 
                 marker.setPosition(pos);
                 map.setCenter(pos);
+                populateDrivers(pos);
             }, function () {
                 handleLocationError(true, infoWindow, map.getCenter());
             });
@@ -43,6 +44,41 @@ app.controller('MainController', ['$scope', '$rootScope', 'MainService', functio
         });
         google.maps.event.addListener(marker, 'click', function () {
             infoWindow.open(map, marker);
+        });
+    };
+
+    var populateDrivers = function (userLocation) {
+        var location = userLocation;
+        var drivers = [];
+        drivers[0] = new google.maps.Marker({
+            position: {
+                lat: userLocation.lat + 0.0041,
+                lng: userLocation.lng + 0.0041
+            },
+            map: map,
+            animation: google.maps.Animation.BOUNCE,
+            title: 'Hey! you can call for me...driver 1',
+            icon: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png'
+        });
+        drivers[1] = new google.maps.Marker({
+            position: {
+                lat: userLocation.lat - 0.0041,
+                lng: userLocation.lng - 0.0041
+            },
+            map: map,
+            animation: google.maps.Animation.BOUNCE,
+            title: 'Hey! you can call for me...driver 2',
+            icon: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png'
+        });
+        drivers[2] = new google.maps.Marker({
+            position: {
+                lat: userLocation.lat - 0.0041,
+                lng: userLocation.lng + 0.0041
+            },
+            map: map,
+            animation: google.maps.Animation.BOUNCE,
+            title: 'Hey! you can call for me...driver 3',
+            icon: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png'
         });
     };
 
