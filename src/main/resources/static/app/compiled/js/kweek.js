@@ -38345,17 +38345,18 @@ app.config(['$httpProvider', '$cookiesProvider', '$stateProvider', '$urlRouterPr
     var populateDrivers = function () {
         $scope.findAvailableDrivers();
         var drivers = [];
-        for (var i = 0; i < $scope.availableDrivers.length; i++){
+        for (var i = 0; i < $scope.availableDrivers.length; i++) {
             drivers[i] = new google.maps.Marker({
-            position: {
-                lat: $scope.availableDrivers[i].lat,
-                lng: $scope.availableDrivers[i].lng
-            },
-            map: map,
-            animation: google.maps.Animation.BOUNCE,
-            title: 'Hey! you can call for me...',
-            icon: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png'
-        });
+                position: $scope.availableDrivers[i],
+                /*position: {
+                    lat: $scope.availableDrivers[i].lat,
+                    lng: $scope.availableDrivers[i].lng
+                },*/
+                map: map,
+                animation: google.maps.Animation.BOUNCE,
+                title: 'Hey! you can call for me...',
+                icon: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png'
+            });
         }
     };
 
