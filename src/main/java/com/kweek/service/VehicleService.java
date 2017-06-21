@@ -44,9 +44,9 @@ public class VehicleService extends KweekLoggerFactory implements ServiceInterfa
         return new ArrayList<>();
     }
 
-    public void saveVehicle(Vehicle vehicle, String userName) {
+    public void saveVehicle(Vehicle vehicle) {
         String separator = FileSystems.getDefault().getSeparator();
-        String pathName = separator +"app" +separator +"images" +separator +userName +".jpg";
+        String pathName = separator +"app" +separator +"images" +separator +vehicle.getBrand() +".jpg";
         /*try {
             OutputStream stream = new BufferedOutputStream(new FileOutputStream(pathName, false));
             stream.write(vehicle.getImage());

@@ -1,7 +1,7 @@
 <!-- bootstrap-daterangepicker -->
 <link href="/vendors/bootstrap-daterangepicker/daterangepicker.css" rel="stylesheet">
 
-<div class="row">
+<div class="row" data-ng-init="initialize()">
 	<div class="page-title">
 		<div class="title_left">
 			<h3> New Reservation
@@ -109,10 +109,10 @@
 
 
 <script type="text/javascript">
-	$(document).ready(function() {
+	//$(document).ready(function() {
       	// Initialize daterangepicker
-		$('#reservation').daterangepicker(null, function(start, end, label) {
-			console.log(start.toISOString(), end.toISOString(), label);
-		});
-  	});
+		//$('#reservation').daterangepicker(null, function(start, end, label) {
+			//console.log(start.toISOString(), end.toISOString(), label);
+		//});
+  	//});
 </script>

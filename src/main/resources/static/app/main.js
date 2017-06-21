@@ -1,9 +1,40 @@
-app.controller('MainController', ['$scope', '$rootScope', 'MainService', function ($scope, $rootScope, MainService) {
+app.controller('MainController', ['$scope', '$rootScope', '$cookies', 'MainService', function ($scope, $rootScope, $cookies, MainService) {
 
-    var map;
+    $scope.passenger = {};
+    $scope.availableDrivers = [];
+    $scope.user_role = $cookies.get('user_role');
 
     $scope.initialize = function () {
         initMap();
+    };
+
+    $scope.callACab = function () {
+        MainService.callACab(marker.getPosition().toJSON(), function (response) {
+            $cookies.putObject("coordinates", marker.getPosition);
+            console.log("congrats, nearby drivers have all been alerted");
+        }, function (response, status) {
+            console.log("an error occured while alerting nearby drivers");
+        });
+    };
+
+    $scope.driverIsReady = function () {
+        MainService.driverIsReady(marker.getPosition().toJSON(), true, function (response) {
+            if (response.data) {
+                console.log("yes dearie... driver is ready");
+            } else {
+                console.log("driver is not ready but still success callback");
+            }
+        }, function (response, status) {
+            console.log("driver is not ready and did not reach success callback but instead reached error callback");
+        });
+    };
+
+    $scope.findAvailableDrivers = function () {
+        MainService.findAvailableDrivers(function (response) {
+            $scope.availableDrivers = response.data;
+        }, function (response, status) {
+            console.log("sorry an error has occured");
+        });
     };
 
 
@@ -12,7 +43,7 @@ app.controller('MainController', ['$scope', '$rootScope', 'MainService', functio
         google.maps.visualRefresh = true;
         var mapOptions = {
             center: new google.maps.LatLng(17.240498, 82.287598),
-            zoom: 13,
+            zoom: 18,
             mapTypeId: google.maps.MapTypeId.ROADMAP
         };
         map = new google.maps.Map(document.getElementById("google-map"), mapOptions);
@@ -22,7 +53,7 @@ app.controller('MainController', ['$scope', '$rootScope', 'MainService', functio
             map: map,
             animation: google.maps.Animation.Drop
         };
-        var marker = new google.maps.Marker(markerOptions);
+        marker = new google.maps.Marker(markerOptions);
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(function (position) {
                 var pos = {
@@ -32,7 +63,7 @@ app.controller('MainController', ['$scope', '$rootScope', 'MainService', functio
 
                 marker.setPosition(pos);
                 map.setCenter(pos);
-                populateDrivers(pos);
+                populateDrivers();
             }, function () {
                 handleLocationError(true, infoWindow, map.getCenter());
             });
@@ -47,42 +78,24 @@ app.controller('MainController', ['$scope', '$rootScope', 'MainService', functio
         });
     };
 
-    var populateDrivers = function (userLocation) {
-        var location = userLocation;
+    var populateDrivers = function () {
+        $scope.findAvailableDrivers();
         var drivers = [];
-        drivers[0] = new google.maps.Marker({
+        for (var i = 0; i < $scope.availableDrivers.length; i++){
+            drivers[i] = new google.maps.Marker({
             position: {
-                lat: userLocation.lat + 0.0041,
-                lng: userLocation.lng + 0.0041
+                lat: $scope.availableDrivers[i].lat,
+                lng: $scope.availableDrivers[i].lng
             },
             map: map,
             animation: google.maps.Animation.BOUNCE,
-            title: 'Hey! you can call for me...driver 1',
+            title: 'Hey! you can call for me...',
             icon: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png'
         });
-        drivers[1] = new google.maps.Marker({
-            position: {
-                lat: userLocation.lat - 0.0041,
-                lng: userLocation.lng - 0.0041
-            },
-            map: map,
-            animation: google.maps.Animation.BOUNCE,
-            title: 'Hey! you can call for me...driver 2',
-            icon: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png'
-        });
-        drivers[2] = new google.maps.Marker({
-            position: {
-                lat: userLocation.lat - 0.0041,
-                lng: userLocation.lng + 0.0041
-            },
-            map: map,
-            animation: google.maps.Animation.BOUNCE,
-            title: 'Hey! you can call for me...driver 3',
-            icon: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png'
-        });
+        }
     };
 
-    var handleLocationError = function(browserHasGeoLocation, infoWindow, pos) {
+    var handleLocationError = function (browserHasGeoLocation, infoWindow, pos) {
         infoWindow.setPosition(pos);
         infoWindow.setContent(browserHasGeoLocation ? "Error: The GeoLocation service failed." : "Error: Your browser does not support geolocation");
         infoWindow.open(map);
@@ -93,6 +106,15 @@ app.controller('MainController', ['$scope', '$rootScope', 'MainService', functio
 
 app.service('MainService', ['APIService', function (APIService) {
 
-    var KWEEK_HOST = "http://localhost:9080";
+    this.callACab = function (coordinates, successHandler, errorHandler) {
+        APIService.post("/api/cab/call-a-cab", coordinates, successHandler, errorHandler);
+    };
 
+    this.driverIsReady = function (coordinates, readyState, successHandler, errorHandler) {
+        APIService.post("/api/cab/driver?ready=" + readyState, coordinates, successHandler, errorHandler);
+    };
+
+    this.findAvailableDrivers = function (successHandler, errorHandler) {
+        APIService.get("/api/cab/available-drivers", successHandler, errorHandler);
+    };
 }]);

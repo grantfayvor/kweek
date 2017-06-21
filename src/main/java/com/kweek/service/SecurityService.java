@@ -26,7 +26,9 @@ public class SecurityService extends KweekLoggerFactory{
         UserDetails authenticatedUser = this.confirmUserPassword(username, password);
         if (authenticatedUser != null){
             UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(authenticatedUser, password, authenticatedUser.getAuthorities());
+//            authenticationToken.setAuthenticated(true);
             SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+//            SecurityContextHolder.getContext().getAuthentication().setAuthenticated(true);
             return authenticatedUser;
         } else {
             logger.config("=== " +username+ " could not be authenticated in the kweek system ===");

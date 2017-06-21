@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<title>Kweek! | </title>
+
+	<link href="vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+	<link href="vendors/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+	<link href="vendors/nprogress/nprogress.css" rel="stylesheet">
+	<link href="vendors/animate.css/animate.min.css" rel="stylesheet">
+
+	<link href="build/css/custom.min.css" rel="stylesheet">
+</head>
+
+<body class="login">
+	<div>
+		<div class="login_wrapper">
+			<div class="animate form login_form">
+				<section class="login_content">
+                    <div>
+                        A passenger with coordinates <span data-ng-bind="passenger.coordinates"></span> has just requested for a ride click either of the buttons below to accept
+                        or decline the ride
+                    </div>
+                    <div class="">
+						<button type="button" class="btn btn-default btn-lg" data-ng-click="acceptTheRide()">Accept the ride</button>
+					</div>
+					<div class="">
+						<button type="button" class="btn btn-default btn-lg" data-ng-click="declineTheRide()">Decline the ride</button>
+					</div>
+				</section>
+			</div>
+		</div>
+
+		<div id="register" class="animate form registration_form">
+			<section class="login_content">
+
+			</section>
+		</div>
+		<div>
+			<h1><i class="fa fa-paw"></i> Kweek!</h1>
+			<p>©2017 All Rights Reserved. kweek.com! no.1 car rental system. Privacy and Terms</p>
+		</div>
+	</div>
+
+	<script src="/vendors/jquery/dist/jquery.min.js"></script>
+	<script src="/vendors/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="/app/angular.js"></script>
+	<script src="/app/angular-cookies.js"></script>
+</body>
+
+</html>

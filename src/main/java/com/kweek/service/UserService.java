@@ -1,7 +1,10 @@
 package com.kweek.service;
 
 import com.kweek.config.KweekLoggerFactory;
+import com.kweek.model.AccountType;
+import com.kweek.model.Driver;
 import com.kweek.model.User;
+import com.kweek.repository.DriverRepository;
 import com.kweek.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -28,6 +31,8 @@ public class UserService extends KweekLoggerFactory implements UserDetailsServic
     @Autowired
     private UserRepository userRepository;
     @Autowired
+    private DriverRepository driverRepository;
+    @Autowired
     private PasswordEncoder passwordEncoder;
 
     public UserService(){
@@ -43,6 +48,10 @@ public class UserService extends KweekLoggerFactory implements UserDetailsServic
     @Override
     public User save(User user) {
         user.setPassword(passwordEncoder.encode(user.getRawPassword()));
+        if(AccountType.ROLE_DRIVER.equals(user.getAccountType())){
+            Driver driver = new Driver(user, false);
+            driverRepository.save(driver);
+        }
         return userRepository.save(user);
     }
 

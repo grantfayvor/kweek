@@ -38144,70 +38144,8 @@ function $IncludedByStateFilter($state) {
 angular.module('ui.router.state')
   .filter('isState', $IsStateFilter)
   .filter('includedByState', $IncludedByStateFilter);
-})(window, window.angular);;var config = function () {
-    this.kweek_host = 'http://localhost:9080';
-    this.admin_host = 'http://localhost:9090';
-
-    this.API_ENDPOINTS_HOST = [
-        {
-            id: "KWEEK_HOST",
-            value: this.kweek_host
-        },
-        {
-            id: "ADMIN_HOST",
-            value: this.admin_host
-        }
-    ];
-};
-
-/*var map;
-
-var loadMap = function () {
-    console.log("loadMap function has just been called");
-    google.maps.visualRefresh = true;
-    var mapOptions = {
-        center: new google.maps.LatLng(17.240498, 82.287598),
-        zoom: 13,
-        mapTypeId: google.maps.MapTypeId.ROADMAP
-    };
-    map = new google.maps.Map(document.getElementById("google-map"), mapOptions);
-    var geoMarker = new GeolocationMarker(map);
-    var markerOptions = {
-        position: map.getCenter(),
-        map: map,
-        animation: google.maps.Animation.BOUNCE
-    };
-    var marker = new google.maps.Marker(markerOptions);
-    var infoWindow = new google.maps.InfoWindow({
-        content: "current location"
-    });
-    google.maps.event.addListener(marker, 'click', function () {
-        infoWindow.open(map, marker);
-    });
-	if(navigator.geolocation){
-		navigator.geolocation.getCurrentPosition(function(position){
-			var pos = {
-				lat: position.coords.latitude,
-				lng: position.coords.longitude
-			};
-
-			marker.setPosition(pos);
-			map.setCenter(pos);
-		}, function(){
-			handleLocationError(true, infoWindow, map.getCenter());
-		});
-	} else{
-		handleLocationError(false, infoWindow, map.getCenter);
-	}
-};*/
-
-/*function handleLocationError(browserHasGeoLocation, infoWindow, pos){
-	infoWindow.setPosition(pos);
-	infoWindow.setContent(browserHasGeoLocation ? "Error: The GeoLocation service failed." : "Error: Your browser does not support geolocation");
-	infoWindow.open(map);
-};*/
-
-// loadMap();
+})(window, window.angular);;var map;
+var marker;
 
 var app = angular.module('kweek', ['ngCookies', 'ui.router']);
 
@@ -38273,29 +38211,37 @@ app.config(['$httpProvider', '$cookiesProvider', '$stateProvider', '$urlRouterPr
 
     }]);;app.service('APIService', ['$http', '$q', function ($http, $q) {
 
+    var KWEEK_HOST = "http://localhost:9080";
+
     this.get = function (url, successHandler, errorHandler) {
-        $http.get(url)
+        $http.get(KWEEK_HOST +url)
             .then(successHandler, errorHandler);
     };
 
     this.getWithHeader = function(url, headers, successHandler, errorHandler) {
-        $http.get(url, headers)
+        $http.get(KWEEK_HOST +url, headers)
             .success(successHandler)
             .error(errorHandler);
     };
 
     this.post = function (url, data, successHandler, errorHandler) {
-        $http.post(url, data)
+        $http.post(KWEEK_HOST +url, data)
             .then(successHandler, errorHandler);
     };
 
+    this.postWithHeader = function(url, data, headers, successHandler, errorHandler) {
+        $http.get(KWEEK_HOST +url, data, headers)
+            .success(successHandler)
+            .error(errorHandler);
+    };
+
     this.delete = function (url, successHandler, errorHandler) {
-        $http.delete(url)
+        $http.delete(KWEEK_HOST +url)
             .then(successHandler, errorHandler);
     };
 
     this.put = function (url, data, successHandler, errorHandler) {
-        $http.put(url, data)
+        $http.put(KWEEK_HOST +url, data)
             .success(successHandler)
             .error(errorHandler);
     };
@@ -38303,7 +38249,7 @@ app.config(['$httpProvider', '$cookiesProvider', '$stateProvider', '$urlRouterPr
     this.head = function (url, notifyMsg) {
         var deferred = $q.defer();
 
-        $http.head(url)
+        $http.head(KWEEK_HOST +url)
             .success(function (data) {
                 deferred.resolve(data);
             })
@@ -38316,12 +38262,43 @@ app.config(['$httpProvider', '$cookiesProvider', '$stateProvider', '$urlRouterPr
     };
 
 
-}]);;app.controller('MainController', ['$scope', '$rootScope', 'MainService', function ($scope, $rootScope, MainService) {
+}]);;app.controller('MainController', ['$scope', '$rootScope', '$cookies', 'MainService', function ($scope, $rootScope, $cookies, MainService) {
 
-    var map;
+    $scope.passenger = {};
+    $scope.availableDrivers = [];
+    $scope.user_role = $cookies.get('user_role');
 
     $scope.initialize = function () {
         initMap();
+    };
+
+    $scope.callACab = function () {
+        MainService.callACab(marker.getPosition().toJSON(), function (response) {
+            $cookies.putObject("coordinates", marker.getPosition);
+            console.log("congrats, nearby drivers have all been alerted");
+        }, function (response, status) {
+            console.log("an error occured while alerting nearby drivers");
+        });
+    };
+
+    $scope.driverIsReady = function () {
+        MainService.driverIsReady(marker.getPosition().toJSON(), true, function (response) {
+            if (response.data) {
+                console.log("yes dearie... driver is ready");
+            } else {
+                console.log("driver is not ready but still success callback");
+            }
+        }, function (response, status) {
+            console.log("driver is not ready and did not reach success callback but instead reached error callback");
+        });
+    };
+
+    $scope.findAvailableDrivers = function () {
+        MainService.findAvailableDrivers(function (response) {
+            $scope.availableDrivers = response.data;
+        }, function (response, status) {
+            console.log("sorry an error has occured");
+        });
     };
 
 
@@ -38330,7 +38307,7 @@ app.config(['$httpProvider', '$cookiesProvider', '$stateProvider', '$urlRouterPr
         google.maps.visualRefresh = true;
         var mapOptions = {
             center: new google.maps.LatLng(17.240498, 82.287598),
-            zoom: 13,
+            zoom: 18,
             mapTypeId: google.maps.MapTypeId.ROADMAP
         };
         map = new google.maps.Map(document.getElementById("google-map"), mapOptions);
@@ -38340,7 +38317,7 @@ app.config(['$httpProvider', '$cookiesProvider', '$stateProvider', '$urlRouterPr
             map: map,
             animation: google.maps.Animation.Drop
         };
-        var marker = new google.maps.Marker(markerOptions);
+        marker = new google.maps.Marker(markerOptions);
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(function (position) {
                 var pos = {
@@ -38350,7 +38327,7 @@ app.config(['$httpProvider', '$cookiesProvider', '$stateProvider', '$urlRouterPr
 
                 marker.setPosition(pos);
                 map.setCenter(pos);
-                populateDrivers(pos);
+                populateDrivers();
             }, function () {
                 handleLocationError(true, infoWindow, map.getCenter());
             });
@@ -38365,42 +38342,24 @@ app.config(['$httpProvider', '$cookiesProvider', '$stateProvider', '$urlRouterPr
         });
     };
 
-    var populateDrivers = function (userLocation) {
-        var location = userLocation;
+    var populateDrivers = function () {
+        $scope.findAvailableDrivers();
         var drivers = [];
-        drivers[0] = new google.maps.Marker({
+        for (var i = 0; i < $scope.availableDrivers.length; i++){
+            drivers[i] = new google.maps.Marker({
             position: {
-                lat: userLocation.lat + 0.0041,
-                lng: userLocation.lng + 0.0041
+                lat: $scope.availableDrivers[i].lat,
+                lng: $scope.availableDrivers[i].lng
             },
             map: map,
             animation: google.maps.Animation.BOUNCE,
-            title: 'Hey! you can call for me...driver 1',
+            title: 'Hey! you can call for me...',
             icon: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png'
         });
-        drivers[1] = new google.maps.Marker({
-            position: {
-                lat: userLocation.lat - 0.0041,
-                lng: userLocation.lng - 0.0041
-            },
-            map: map,
-            animation: google.maps.Animation.BOUNCE,
-            title: 'Hey! you can call for me...driver 2',
-            icon: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png'
-        });
-        drivers[2] = new google.maps.Marker({
-            position: {
-                lat: userLocation.lat - 0.0041,
-                lng: userLocation.lng + 0.0041
-            },
-            map: map,
-            animation: google.maps.Animation.BOUNCE,
-            title: 'Hey! you can call for me...driver 3',
-            icon: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png'
-        });
+        }
     };
 
-    var handleLocationError = function(browserHasGeoLocation, infoWindow, pos) {
+    var handleLocationError = function (browserHasGeoLocation, infoWindow, pos) {
         infoWindow.setPosition(pos);
         infoWindow.setContent(browserHasGeoLocation ? "Error: The GeoLocation service failed." : "Error: Your browser does not support geolocation");
         infoWindow.open(map);
@@ -38411,12 +38370,25 @@ app.config(['$httpProvider', '$cookiesProvider', '$stateProvider', '$urlRouterPr
 
 app.service('MainService', ['APIService', function (APIService) {
 
-    var KWEEK_HOST = "http://localhost:9080";
+    this.callACab = function (coordinates, successHandler, errorHandler) {
+        APIService.post("/api/cab/call-a-cab", coordinates, successHandler, errorHandler);
+    };
 
+    this.driverIsReady = function (coordinates, readyState, successHandler, errorHandler) {
+        APIService.post("/api/cab/driver?ready=" + readyState, coordinates, successHandler, errorHandler);
+    };
+
+    this.findAvailableDrivers = function (successHandler, errorHandler) {
+        APIService.get("/api/cab/available-drivers", successHandler, errorHandler);
+    };
 }]);
-;app.controller('ReservationController', ['$scope', '$rootScope', 'ReservationService', function ($scope, $rootScope, ReservationService){
-        
+;app.controller('ReservationController', ['$scope', '$rootScope', 'ReservationService', function ($scope, $rootScope, ReservationService) {
+
     $scope.user_reservations = [];
+
+    $scope.initialize = function () {
+        initDateRangePicker();
+    };
 
     $scope.getUserReservation = function () {
         ReservationService.getUserReservation(function (response) {
@@ -38435,26 +38407,30 @@ app.service('MainService', ['APIService', function (APIService) {
         });
     };
 
+    var initDateRangePicker = function () {
+        $('#reservation').daterangepicker(null, function(start, end, label) {
+			console.log(start.toISOString(), end.toISOString(), label);
+		});
+    };
+
 }]);
 
 app.service('ReservationService', ['APIService', function (APIService) {
-    
-    var KWEEK_HOST = "http://localhost:9080";
 
     this.getUserReservation = function (successHandler, errorHandler) {
-        APIService.get(KWEEK_HOST + "/api/reservation/user", successHandler, errorHandler);
-    }; 
+        APIService.get("/api/reservation/user", successHandler, errorHandler);
+    };
 
     this.getAllReservations = function (successHandler, errorHandler) {
-        APIService.get(KWEEK_HOST + "/api/reservation/", successHandler, errorHandler);
+        APIService.get("/api/reservation/", successHandler, errorHandler);
     };
 
     this.newReservation = function (reservation, successHandler, errorHandler) {
-        APIService.post(KWEEK_HOST + "/api/reservation/new-reservation", reservation, successHandler, errorHandler);
+        APIService.post("/api/reservation/new-reservation", reservation, successHandler, errorHandler);
     };
 
     this.deleteReservation = function (reservationId, successHandler, errorHandler) {
-        APIService.delete(KWEEK_HOST + "/api/reservation/delete?id="+ reservationId, successHandler, errorHandler);
+        APIService.delete("/api/reservation/delete?id=" + reservationId, successHandler, errorHandler);
     };
 
 }]);;app.controller('UserController', ['$rootScope', '$scope', '$location', 'UserService', function ($rootScope, $scope, $location, UserService) {
@@ -38532,22 +38508,21 @@ app.service('UserService', ['APIService', function (APIService) {
 
 app.service('VehicleService', ['APIService', function (APIService) {
 
-    var KWEEK_HOST = "http://localhost:9080";
 
     this.addNewVehicle = function (vehicleDetails, successHandler, errorHandler) {
-        APIService.post(KWEEK_HOST + '/api/vehicle/new-vehicle', vehicleDetails, successHandler, errorHandler);
+        APIService.post('/api/vehicle/new-vehicle', vehicleDetails, successHandler, errorHandler);
     };
 
     this.getAllVehicles = function (successHandler, errorHandler) {
-        APIService.get(KWEEK_HOST + '/api/vehicle', successHandler, errorHandler);
+        APIService.get('/api/vehicle', successHandler, errorHandler);
     };
 
     this.getAllVehicleCategories = function (successHandler, errorHandler) {
-        APIService.get(KWEEK_HOST + '/api/vehicle/all_types', successHandler, errorHandler);
+        APIService.get('/api/vehicle/all_types', successHandler, errorHandler);
     };
 
     this.findVehicle = function (vehicleDetail, successHandler, errorHandler) {
-        APIService.get(KWEEK_HOST + '/api/vehicle/{param}', successHandler, errorHandler);
+        APIService.get('/api/vehicle/{param}', successHandler, errorHandler);
     };
 
 }]);

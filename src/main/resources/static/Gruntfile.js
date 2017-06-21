@@ -34,7 +34,8 @@ module.exports = function (grunt) {
                 'app/config/*.js',
                 'app/modules/**/*.js',
                 'app/service/*.js',
-                'app/main.js'],
+                'app/main.js',
+                'authentication/login.js'],
             options: {
                 globals: {
                     jQuery: true,

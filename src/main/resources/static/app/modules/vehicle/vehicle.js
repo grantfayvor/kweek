@@ -59,22 +59,21 @@ app.controller('VehicleController', ['$scope', '$rootScope', 'VehicleService', '
 
 app.service('VehicleService', ['APIService', function (APIService) {
 
-    var KWEEK_HOST = "http://localhost:9080";
 
     this.addNewVehicle = function (vehicleDetails, successHandler, errorHandler) {
-        APIService.post(KWEEK_HOST + '/api/vehicle/new-vehicle', vehicleDetails, successHandler, errorHandler);
+        APIService.post('/api/vehicle/new-vehicle', vehicleDetails, successHandler, errorHandler);
     };
 
     this.getAllVehicles = function (successHandler, errorHandler) {
-        APIService.get(KWEEK_HOST + '/api/vehicle', successHandler, errorHandler);
+        APIService.get('/api/vehicle', successHandler, errorHandler);
     };
 
     this.getAllVehicleCategories = function (successHandler, errorHandler) {
-        APIService.get(KWEEK_HOST + '/api/vehicle/all_types', successHandler, errorHandler);
+        APIService.get('/api/vehicle/all_types', successHandler, errorHandler);
     };
 
     this.findVehicle = function (vehicleDetail, successHandler, errorHandler) {
-        APIService.get(KWEEK_HOST + '/api/vehicle/{param}', successHandler, errorHandler);
+        APIService.get('/api/vehicle/{param}', successHandler, errorHandler);
     };
 
 }]);

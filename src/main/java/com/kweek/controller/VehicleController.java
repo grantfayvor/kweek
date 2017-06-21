@@ -1,5 +1,6 @@
 package com.kweek.controller;
 
+import com.kweek.model.AccountType;
 import com.kweek.model.User;
 import com.kweek.model.Vehicle;
 import com.kweek.model.VehicleType;
@@ -48,6 +49,12 @@ public class VehicleController extends AbstractController<Vehicle>{
     @RequestMapping(value = "/new-vehicle", method = RequestMethod.POST)
     @ResponseBody
     public void create(@RequestBody Vehicle vehicle, HttpSession httpSession) {
-        vehicleService.saveVehicle(vehicle, httpSession.getAttribute("sessionUser").toString());
+        Object object = httpSession.getAttribute("sessionUser");
+        if(object instanceof User){
+            if (AccountType.ROLE_ADMIN.equals(((User) object).getAccountType())){
+                vehicleService.saveVehicle(vehicle);
+            } else System.out.println("not authorised to perform this function");
+        }
+
     }
 }

@@ -12,4 +12,6 @@ public enum AccountType implements GrantedAuthority{
     public String getAuthority() {
         return null;
     }
+
+
 }

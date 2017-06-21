@@ -1,5 +1,6 @@
 package com.kweek.controller;
 
+import com.kweek.model.AccountType;
 import com.kweek.model.Reservation;
 import com.kweek.model.User;
 import com.kweek.service.ReservationService;
@@ -30,7 +31,14 @@ public class ReservationController extends AbstractController<Reservation>{
     @ResponseBody
     public List<Reservation> getUserReservation(HttpSession httpSession){
         Object user = httpSession.getAttribute("sessionUser");
-        if(user instanceof User) return reservationService.findUserReservation(((User) user));
+        if(user instanceof User) {
+            if(AccountType.ROLE_USER.equals(((User) user).getAccountType())) {
+                return reservationService.findUserReservation(((User) user));
+            } else {
+                System.out.print("not authorized to perform this function");
+                return null;
+            }
+        }
         else return null;
     }
 

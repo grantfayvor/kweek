@@ -24,8 +24,10 @@
 			<div class="x_content">
 				<div class="dashboard-widget-content">
 					<div id="google-map" class="col-md-12 col-lg-12 col-sm-12 col-xs-12" style="height:500px;"></div>
+					<div class="clearfix"></div>
 					<div class="">
-						<button type="button" class="btn btn-default btn-lg" data-ng-click="">Call a cab</button>
+						<button type="button" class="btn btn-default btn-lg" data-ng-click="callACab()" data-ng-show="user_role == 'ROLE_USER' || user_role == 'ROLE_ADMIN'">Call a cab</button>
+						<button type="button" class="btn btn-default btn-lg" data-ng-click="driverIsReady()" data-ng-show="user_role == 'ROLE_DRIVER'">Ready to give a ride</button>
 					</div>
 				</div>
 			</div>
@@ -141,34 +143,3 @@
 	</div>
 </div>
 <!-- end of weather widget -->
-
-<script>
-//var map;
-
-
-/**var initMap = function () {
-    console.log("initMap function has just been called");
-    google.maps.visualRefresh = true;
-	console.log("trying to use google refresh");
-    var mapOptions = {
-        center: new google.maps.LatLng(17.240498, 82.287598),
-        zoom: 13,
-        mapTypeId: google.maps.MapTypeId.ROADMAP
-    };
-    map = new google.maps.Map(document.getElementById("google-map"), mapOptions);
-    var geoMarker = new GeolocationMarker(map);
-	var markerOptions = {
-        position: map.getCenter(),
-        map: map,
-        animation: google.maps.Animation.BOUNCE
-    };
-    var marker = new google.maps.Marker(markerOptions);
-    var infoWindow = new google.maps.InfoWindow({
-        content: "current location"
-    });
-    google.maps.event.addListener(marker, 'click', function () {
-        infoWindow.open(map, marker);
-    });
-};*/
-//google.maps.event.addDomListener(window, 'load',initMap);
-</script>

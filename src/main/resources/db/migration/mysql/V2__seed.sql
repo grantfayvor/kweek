@@ -1,6 +1,12 @@
 INSERT INTO user(id, first_name, last_name, user_name, password, email, phone_number, account_type)
 VALUES(1, "Harrison", "Grant", "admin", "$2a$05$JX/LWG1y65Sjz/0xqAAnHep6Nqp6Cr3YEPdk9oq4ePQiGobXoQW/W", "admin@email.com", "08080695704", "ROLE_ADMIN");
 
+INSERT INTO user(id, first_name, last_name, user_name, password, email, phone_number, account_type)
+VALUES(2, "Harrison", "Grant", "user", "$2a$05$JX/LWG1y65Sjz/0xqAAnHep6Nqp6Cr3YEPdk9oq4ePQiGobXoQW/W", "user@email.com", "08080695704", "ROLE_USER");
+
+INSERT INTO user(id, first_name, last_name, user_name, password, email, phone_number, account_type)
+VALUES(3, "Harrison", "Grant", "driver", "$2a$05$JX/LWG1y65Sjz/0xqAAnHep6Nqp6Cr3YEPdk9oq4ePQiGobXoQW/W", "driver@email.com", "08080695704", "ROLE_DRIVER");
+
 
 
 INSERT INTO vehicle(id, brand, type, model, image_location, description, cost)

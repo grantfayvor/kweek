@@ -1,6 +1,10 @@
-app.controller('ReservationController', ['$scope', '$rootScope', 'ReservationService', function ($scope, $rootScope, ReservationService){
-        
+app.controller('ReservationController', ['$scope', '$rootScope', 'ReservationService', function ($scope, $rootScope, ReservationService) {
+
     $scope.user_reservations = [];
+
+    $scope.initialize = function () {
+        initDateRangePicker();
+    };
 
     $scope.getUserReservation = function () {
         ReservationService.getUserReservation(function (response) {
@@ -19,26 +23,30 @@ app.controller('ReservationController', ['$scope', '$rootScope', 'ReservationSer
         });
     };
 
+    var initDateRangePicker = function () {
+        $('#reservation').daterangepicker(null, function(start, end, label) {
+			console.log(start.toISOString(), end.toISOString(), label);
+		});
+    };
+
 }]);
 
 app.service('ReservationService', ['APIService', function (APIService) {
-    
-    var KWEEK_HOST = "http://localhost:9080";
 
     this.getUserReservation = function (successHandler, errorHandler) {
-        APIService.get(KWEEK_HOST + "/api/reservation/user", successHandler, errorHandler);
-    }; 
+        APIService.get("/api/reservation/user", successHandler, errorHandler);
+    };
 
     this.getAllReservations = function (successHandler, errorHandler) {
-        APIService.get(KWEEK_HOST + "/api/reservation/", successHandler, errorHandler);
+        APIService.get("/api/reservation/", successHandler, errorHandler);
     };
 
     this.newReservation = function (reservation, successHandler, errorHandler) {
-        APIService.post(KWEEK_HOST + "/api/reservation/new-reservation", reservation, successHandler, errorHandler);
+        APIService.post("/api/reservation/new-reservation", reservation, successHandler, errorHandler);
     };
 
     this.deleteReservation = function (reservationId, successHandler, errorHandler) {
-        APIService.delete(KWEEK_HOST + "/api/reservation/delete?id="+ reservationId, successHandler, errorHandler);
+        APIService.delete("/api/reservation/delete?id=" + reservationId, successHandler, errorHandler);
     };
 
 }]);

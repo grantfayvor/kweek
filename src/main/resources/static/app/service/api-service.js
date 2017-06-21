@@ -1,28 +1,36 @@
 app.service('APIService', ['$http', '$q', function ($http, $q) {
 
+    var KWEEK_HOST = "http://localhost:9080";
+
     this.get = function (url, successHandler, errorHandler) {
-        $http.get(url)
+        $http.get(KWEEK_HOST +url)
             .then(successHandler, errorHandler);
     };
 
     this.getWithHeader = function(url, headers, successHandler, errorHandler) {
-        $http.get(url, headers)
+        $http.get(KWEEK_HOST +url, headers)
             .success(successHandler)
             .error(errorHandler);
     };
 
     this.post = function (url, data, successHandler, errorHandler) {
-        $http.post(url, data)
+        $http.post(KWEEK_HOST +url, data)
             .then(successHandler, errorHandler);
     };
 
+    this.postWithHeader = function(url, data, headers, successHandler, errorHandler) {
+        $http.get(KWEEK_HOST +url, data, headers)
+            .success(successHandler)
+            .error(errorHandler);
+    };
+
     this.delete = function (url, successHandler, errorHandler) {
-        $http.delete(url)
+        $http.delete(KWEEK_HOST +url)
             .then(successHandler, errorHandler);
     };
 
     this.put = function (url, data, successHandler, errorHandler) {
-        $http.put(url, data)
+        $http.put(KWEEK_HOST +url, data)
             .success(successHandler)
             .error(errorHandler);
     };
@@ -30,7 +38,7 @@ app.service('APIService', ['$http', '$q', function ($http, $q) {
     this.head = function (url, notifyMsg) {
         var deferred = $q.defer();
 
-        $http.head(url)
+        $http.head(KWEEK_HOST +url)
             .success(function (data) {
                 deferred.resolve(data);
             })
