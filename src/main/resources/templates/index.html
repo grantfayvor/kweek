@@ -1,291 +1,483 @@
 <!DOCTYPE html>
-<html lang="en" data-ng-app="kweek">
+<html>
+   <head>
+      <title>Nava</title>
+      <meta charset="utf-8">
+      <meta name="description" content="Traveling HTML5 Template" />
+      <meta name="author" content="Design Hooks" />
+      <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+      <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700|Raleway:400,700" rel="stylesheet" />
+      <link href="img/favicon.png" type="image/x-icon" rel="shortcut icon" />
+      <link href="css/screen.css" rel="stylesheet" />
+   </head>
+   <body class="home" id="page">
+      <!-- Header -->
+      <header class="main-header">
+         <div class="container">
+            <div class="header-content">
+               <a href="/home">
+                  <img src="img/site-identity.png" alt="site identity" />
+               </a>
 
-<head>
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	<!-- Meta, title, CSS, favicons, etc. -->
-	<meta charset="utf-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<meta name="description" content="Car Rental project to be submitted in partial fulfilment for the award of Bachelor's degree">
+               <nav class="site-nav">
+                  <ul class="clean-list site-links">
+                     <li>
+                        <a href="#destinations">Top Destinations</a>
+                     </li>
+                     <li>
+                        <a href="/dashboard">Dashboard</a>
+                     </li>
+                  </ul>
 
-	<title>Kweek! | </title>
+                  <a href="/login" class="btn btn-outlined">Sign in</a>
+               </nav>
+            </div>
+         </div>
+      </header>
 
-	<!-- Bootstrap -->
-	<link href="/vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
-	<!-- Font Awesome -->
-	<link href="/vendors/font-awesome/css/font-awesome.min.css" rel="stylesheet">
-	<!-- NProgress -->
-	<link href="/vendors/nprogress/nprogress.css" rel="stylesheet">
-	<!-- iCheck -->
-	<link href="/vendors/iCheck/skins/flat/green.css" rel="stylesheet">
+      <!-- Main Content -->
+      <div class="content-box">
+         <!-- Hero Section -->
+         <section class="section section-hero">
+            <div class="hero-box">
+               <div class="container">
+                  <div class="hero-text align-center">
+                     <h1>Reserve a car now!</h1>
+                     <p>and ride into paradise!</p>
+                  </div>
 
-	<!--pNotify-->
-	<link href="/vendors/pnotify/dist/pnotify.css" rel="stylesheet">
-	<link href="/vendors/pnotify/dist/pnotify.buttons.css" rel="stylesheet">
-	<link href="/vendors/pnotify/dist/pnotify.nonblock.css" rel="stylesheet">
+                  <form class="destinations-form">
+                     <div class="input-line">
+                        <input type="text" name="destination" value="" class="form-input check-value" placeholder="WHAT IS YOUR DESTINATION?" />
+                        <button type="button" name="destination-submit" class="form-submit btn btn-special">Find a car</button>
+                     </div>
+                  </form>
+               </div>
+            </div>
 
-	<!-- bootstrap-progressbar -->
-	<link href="/vendors/bootstrap-progressbar/css/bootstrap-progressbar-3.3.4.min.css" rel="stylesheet">
-	<!-- bootstrap-daterangepicker -->
-	<!--<link href="/vendors/bootstrap-daterangepicker/daterangepicker.css" rel="stylesheet">-->
+            <!-- Statistics Box -->
+            <div id="destinations" class="container">
+               <div class="statistics-box">
+                  <div class="statistics-item">
+                     <span class="value">2,300</span>
+                     <p class="title">Destinations</p>
+                  </div>
 
-	<!-- Custom Theme Style -->
-	<link href="/build/css/custom.min.css" rel="stylesheet">
+                  <div class="statistics-item">
+                     <span class="value">1,000</span>
+                     <p class="title">Cities</p>
+                  </div>
 
-	<!-- Google Maps API -->
-	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBC2k94EGV8e3uVNgElIEUSXa8X-Rfw8ZY&sensor=false" async defer></script>
-	<!--<script src="/node_modules/geolocation-marker/geolocation-marker.js"></script>-->
+                  <div class="statistics-item">
+                     <span class="value">35,000</span>
+                     <p class="title">Cars</p>
+                  </div>
 
-</head>
+                  <div class="statistics-item">
+                     <span class="value">50,000</span>
+                     <p class="title">Drivers</p>
+                  </div>
+               </div>
+            </div>
+         </section>
 
-<body class="nav-md footer_fixed">
-	<div class="container body">
-		<div class="main_container">
-			<div class="col-md-3 left_col menu_fixed">
-				<div class="left_col scroll-view">
-					<div class="navbar nav_title" style="border: 0;">
-						<a href="index.html" class="site_title"><i class="fa fa-paw"></i> <span>Kweek</span></a>
-					</div>
+         <!-- Destinations Section -->
+         <section class="section section-destination">
+            <!-- Title -->
+            <div class="section-title">
+               <div class="container">
+                  <h2 class="title">Explore our top destinations</h2>
+                  <p class="sub-title">Wherever you are we have a car for you</p>
+               </div>
+            </div>
 
-					<div class="clearfix"></div>
+            <!-- Content -->
+            <div class="container">
+               <div class="row">
+                  <div class="col-md-16 col-xs-24">
+                     <div class="destination-box">
+                        <div class="box-cover">
+                           <a href="#">
+                              <img src="img/destination-1.jpg" alt="destination image" />
+                           </a>
+                        </div>
 
-					<!-- menu profile quick info -->
-					<div class="profile clearfix">
-						<a ui-sref="user-profile" ui-sref-active="active">
-							<div class="profile_pic">
-								<img src="production/images/img.jpg" alt="..." class="img-circle profile_img">
-							</div>
-							<div class="profile_info">
-								<span>Welcome,</span><span data-ng-bind="username">John Doe</span>
-							</div>
-						</a>
-					</div>
-					<!-- /menu profile quick info -->
+                        <span class="boats-qty">730</span>
 
-					<br/>
+                        <div class="box-details">
+                           <div class="box-meta">
+                              <h4 class="city">Figueira da Fox</h4>
+                              <p class="country">Portugal</p>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
 
-					<!-- sidebar menu -->
-					<div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
-						<div class="menu_section">
-							<ul class="nav side-menu">
-								<li>
-									<a id="home" ui-sref="home" ui-sref-active="active" onclick="startLoading(0.01);"><i class="fa fa-home"></i> Home </a>
-								</li>
-								<li><a id="vehicle" href="javascript:void(0)"><i class="fa fa-car"></i> Cars <span
-                                    class="fa fa-chevron-down"></span></a>
-									<ul class="nav child_menu">
-										<li><a id="view-vehicles" onclick="startLoading(0.01);" ui-sref="view-vehicles" ui-sref-active="active">View Cars <span
-                                            class="fa fa-chevron-down"></span></a>
-											<ul class="nav child_menu">
-												<li><a id="all-suvs" ui-sref="view-car-suv" ui-sref-active="active" onclick="startLoading(0.01);">All SUV's</a></li>
-												<li><a id="all-salons" ui-sref="view-car-salon" ui-sref-active="active" onclick="startLoading(0.01);">All Salon cars</a>
-												</li>
-											</ul>
-										</li>
-									</ul>
-								</li>
-								<li><a id="reservation" ui-sref="all-reservations" ui-sref-active="active" onclick="startLoading(0.01);"><i class="fa fa-book"></i> Reservation <span
-                                    class="fa fa-chevron-down"></span></a>
-									<ul class="nav child_menu">
-										<li><a id="all-reservations" ui-sref="all-reservations" ui-sref-active="active" onclick="startLoading(0.01);">View Reservations</a>
-										</li>
-									</ul>
-								</li>
-								<li>
-									<a id="contact" ui-sref="contact" ui-sref-active="active" onclick="startLoading(0.01);"><i class="fa fa-phone"></i> Contact Us </a>
-								</li>
-								<li>
-									<a id="settings" ui-sref="settings" ui-sref-active="active" onclick="startLoading(0.01);"><i class="fa fa-cogs"></i> Settings </a>
-								</li>
-								<li>
-									<a id="help" ui-sref="help" ui-sref-active="active" onclick="startLoading(0.01);"><i class="fa fa-question"></i> Help </a>
-								</li>
-								<li>
-									<a id="logout" ui-sref="log-out" ui-sref-active="active" onclick="startLoading(0.01);"><i class="fa fa-sign-out"></i> Log Out </a>
-								</li>
-							</ul>
-						</div>
-					</div>
-					<!-- /sidebar menu -->
+                  <div class="col-md-8 col-sm-12 col-xs-24">
+                     <div class="destination-box">
+                        <div class="box-cover">
+                           <a href="#">
+                              <img src="img/destination-2.jpg" alt="destination image" />
+                           </a>
+                        </div>
 
-					<!-- /menu footer buttons -->
-					<div class="sidebar-footer hidden-small">
-						<a data-toggle="tooltip" data-placement="top" title="Settings">
-							<span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
-						</a>
-						<a data-toggle="tooltip" data-placement="top" title="FullScreen">
-							<span class="glyphicon glyphicon-fullscreen" aria-hidden="true"></span>
-						</a>
-						<a data-toggle="tooltip" data-placement="top" title="Lock">
-							<span class="glyphicon glyphicon-eye-close" aria-hidden="true"></span>
-						</a>
-						<a data-toggle="tooltip" data-placement="top" title="Logout" href="/logout">
-							<span class="glyphicon glyphicon-off" aria-hidden="true"></span>
-						</a>
-					</div>
-					<!-- /menu footer buttons -->
-				</div>
-			</div>
+                        <span class="boats-qty">621</span>
 
-			<!-- top navigation -->
-			<div class="top_nav menu_fixed">
-				<div class="nav_menu">
-					<nav>
-						<div class="nav toggle">
-							<a id="menu_toggle"><i class="fa fa-bars"></i></a>
-						</div>
+                        <div class="box-details">
+                           <div class="box-meta">
+                              <h4 class="city">Ibiza</h4>
+                              <p class="country">Spain</p>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
 
-						<ul class="nav navbar-nav navbar-right">
-							<li class="">
-								<a href="javascript:void(0);" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-									<img src="production/images/img.jpg" data-ng-src="{{imageLocation}}" alt="">
-									<span data-ng-bind="username">John Doe</span>
-									<span class=" fa fa-angle-down"></span>
-								</a>
-								<ul class="dropdown-menu dropdown-usermenu pull-right">
-									<li><a href="javascript:;"> Profile</a></li>
-									<li>
-										<a href="javascript:;">
-											<span class="badge bg-red pull-right">50%</span>
-											<span>Settings</span>
-										</a>
-									</li>
-									<li><a href="javascript:;">Help</a></li>
-									<li><a href="login.html"><i class="fa fa-sign-out pull-right"></i> Log Out</a></li>
-								</ul>
-							</li>
+                  <div class="col-md-8 col-sm-12 col-xs-24">
+                     <div class="destination-box">
+                        <div class="box-cover">
+                           <a href="#">
+                              <img src="img/destination-3.jpg" alt="destination image" />
+                           </a>
+                        </div>
 
-							<!--this is the presentation for that part that is beside the Account details at the top right corner-->
-							<li role="presentation" class="dropdown">
-								<a href="javascript:;" class="dropdown-toggle info-number" data-toggle="dropdown" aria-expanded="false">
-									<i class="fa fa-envelope-o"></i>
-									<span class="badge bg-green">6</span>
-								</a>
-								<ul id="menu1" class="dropdown-menu list-unstyled msg_list" role="menu">
-									<li>
-										<a>
-											<span class="image"><img src="production/images/img.jpg" alt="Profile Image"/></span>
-											<span>
-                          <span>John Smith</span>
-											<span class="time">3 mins ago</span>
-											</span>
-											<span class="message">
-                          Film festivals used to be do-or-die moments for movie makers. They were where...
-                        </span>
-										</a>
-									</li>
-									<li>
-										<a>
-											<span class="image"><img src="production/images/img.jpg" alt="Profile Image"/></span>
-											<span>
-                          <span>John Smith</span>
-											<span class="time">3 mins ago</span>
-											</span>
-											<span class="message">
-                          Film festivals used to be do-or-die moments for movie makers. They were where...
-                        </span>
-										</a>
-									</li>
-									<li>
-										<div class="text-center">
-											<a>
-												<strong>See All Alerts</strong>
-												<i class="fa fa-angle-right"></i>
-											</a>
-										</div>
-									</li>
-								</ul>
-							</li>
-						</ul>
-					</nav>
-				</div>
-			</div>
-			<!-- /top navigation -->
+                        <span class="boats-qty">543</span>
 
-			<!-- routed page content -->
-			<div class="right_col" role="main">
-				<div class="container">
-					<div class="row" ui-view>
-					</div>
-				</div>
-			</div>
+                        <div class="box-details">
+                           <div class="box-meta">
+                              <h4 class="city">Palma de Mallorca</h4>
+                              <p class="country">Spain</p>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
 
-			<!-- top tiles -->
+                  <div class="col-md-8 col-sm-12 col-xs-24">
+                     <div class="destination-box">
+                        <div class="box-cover">
+                           <a href="#">
+                              <img src="img/destination-4.jpg" alt="destination image" />
+                           </a>
+                        </div>
 
-			<!-- /top tiles -->
-			<!--</div>-->
-			<!-- /page content -->
+                        <span class="boats-qty">495</span>
 
-			<!-- footer content -->
-			<!--<footer>
-				<div class="pull-left" style="margin-left:20%;">
-					copyright &copy; 2017. <a href="#">kweek.com</a>
-				</div>
-				<div class="pull-right">
-					Gentelella - Bootstrap Admin Template by <a href="https://colorlib.com">Colorlib</a>
-				</div>
-			</footer>-->
-			<!-- /footer content -->
-		</div>
-	</div>
+                        <div class="box-details">
+                           <div class="box-meta">
+                              <h4 class="city">Portofino</h4>
+                              <p class="country">Italy</p>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
 
-	<script type="text/javascript">
-		var startLoading = function(n){
-			for(var i = 1; n < i; n += 0.05){
-				NProgress.set(n);
-			};
-			setTimeout(function(){
-				NProgress.done();
-			}, 4000);
-		};
-	</script>
+                  <div class="col-md-8 col-sm-12 col-xs-24">
+                     <div class="destination-box">
+                        <div class="box-cover">
+                           <a href="#">
+                              <img src="img/destination-5.jpg" alt="destination image" />
+                           </a>
+                        </div>
 
-	<!-- jQuery -->
-	<script src="/vendors/jquery/dist/jquery.min.js"></script>
-	<!-- Bootstrap -->
-	<script src="/vendors/bootstrap/dist/js/bootstrap.min.js"></script>
-	<!-- FastClick -->
-	<script src="/vendors/fastclick/lib/fastclick.js"></script>
-	<!-- NProgress -->
-	<script src="/vendors/nprogress/nprogress.js"></script>
-	<!-- Chart.js -->
-	<!--<script src="/vendors/Chart.js/dist/Chart.min.js"></script>-->
-	<!-- gauge.js -->
-	<!--<script src="/vendors/gauge.js/dist/gauge.min.js"></script>-->
-	<!-- bootstrap-progressbar -->
-	<script src="/vendors/bootstrap-progressbar/bootstrap-progressbar.min.js"></script>
-	<!-- iCheck -->
-	<script src="/vendors/iCheck/icheck.min.js"></script>
-	<!-- Skycons -->
-	<script src="/vendors/skycons/skycons.js"></script>
-	<!-- Flot -->
-	<!--<script src="/vendors/Flot/jquery.flot.js"></script>-->
-	<!--<script src="/vendors/Flot/jquery.flot.pie.js"></script>-->
-	<!--<script src="/vendors/Flot/jquery.flot.time.js"></script>-->
-	<!--<script src="/vendors/Flot/jquery.flot.stack.js"></script>-->
-	<!--<script src="/vendors/Flot/jquery.flot.resize.js"></script>-->
-	<!-- Flot plugins -->
-	<!--<script src="/vendors/flot.orderbars/js/jquery.flot.orderBars.js"></script>-->
-	<!--<script src="/vendors/flot-spline/js/jquery.flot.spline.min.js"></script>-->
-	<!--<script src="/vendors/flot.curvedlines/curvedLines.js"></script>-->
-	<!-- DateJS -->
-	<!--<script src="/vendors/DateJS/build/date.js"></script>-->
-	<!-- bootstrap-daterangepicker -->
-	<!--<script src="/vendors/moment/min/moment.min.js"></script>-->
-	<!--<script src="/vendors/bootstrap-daterangepicker/daterangepicker.js"></script>-->
+                        <span class="boats-qty">402</span>
 
-	<!--pNotify-->
-	<script src="/vendors/pnotify/dist/pnotify.js"></script>
-	<script src="/vendors/pnotify/dist/pnotify.buttons.js"></script>
-	<script src="/vendors/pnotify/dist/pnotify.nonblock.js"></script>
+                        <div class="box-details">
+                           <div class="box-meta">
+                              <h4 class="city">Port Hercules</h4>
+                              <p class="country">Monaco</p>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
 
-	<!-- Custom Theme Scripts -->
-	<script src="/build/js/custom.min.js"></script>
+                  <div class="load-destinations-box">
+                     <div class="col-md-8 col-sm-12 col-xs-24">
+                        <div class="destination-box">
+                           <div class="box-cover">
+                              <a href="#">
+                                 <img src="img/destination-4.jpg" alt="destination image" />
+                              </a>
+                           </div>
 
-	<!-- kweek compiled javascript -->
-	<script src="/app/compiled/js/kweek.min.js"></script>
+                           <span class="boats-qty">495</span>
 
-</body>
+                           <div class="box-details">
+                              <div class="box-meta">
+                                 <h4 class="city">Portofino</h4>
+                                 <p class="country">Italy</p>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
 
+                     <div class="col-md-8 col-sm-12 col-xs-24">
+                        <div class="destination-box">
+                           <div class="box-cover">
+                              <a href="#">
+                                 <img src="img/destination-5.jpg" alt="destination image" />
+                              </a>
+                           </div>
+
+                           <span class="boats-qty">402</span>
+
+                           <div class="box-details">
+                              <div class="box-meta">
+                                 <h4 class="city">Port Hercules</h4>
+                                 <p class="country">Monaco</p>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+
+                     <div class="col-md-8 col-sm-12 col-xs-24">
+                        <div class="destination-box">
+                           <div class="box-cover">
+                              <a href="#">
+                                 <img src="img/destination-3.jpg" alt="destination image" />
+                              </a>
+                           </div>
+
+                           <span class="boats-qty">543</span>
+
+                           <div class="box-details">
+                              <div class="box-meta">
+                                 <h4 class="city">Palma de Mallorca</h4>
+                                 <p class="country">Spain</p>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+
+               <div class="align-center">
+                  <a href="#" class="btn btn-default btn-load-destination"><span class="text">Explore more destinations</span><i class="icon-spinner6"></i></a>
+               </div>
+            </div>
+         </section>
+
+         <!-- Parallax Box -->
+         <div class="parallax-box">
+            <div class="container">
+               <div class="text align-center">
+                  <h1>Have your own car?</h1>
+                  <p>We offer a wide range of cars for rent. You only need to make a choice.</p>
+
+                  <a href="#" class="btn btn-special no-icon size-2x">Rent your car</a>
+               </div>
+            </div>
+         </div>
+
+         <!-- Boats Section -->
+         <section class="section section-boats">
+            <!-- Title -->
+            <div class="section-title">
+               <div class="container">
+                  <h2 class="title">Featured cars</h2>
+                  <p class="sub-title">This is just glimpse of some of the beautiful cars wer offer for rent.</p>
+               </div>
+            </div>
+
+            <!-- Content -->
+            <div class="container">
+               <div class="row">
+                  <div class="col-sm-12 col-xs-24">
+                     <div class="boat-box">
+                        <div class="box-cover">
+                           <img src="img/img5.jpg" alt="destination image" />
+                        </div>
+
+                        <span class="boat-price">€580 / day</span>
+
+                        <div class="box-details">
+                           <div class="box-meta">
+                              <h4 class="boat-name">Delphia 47</h4>
+                              <ul class="clean-list boat-meta">
+                                 <li class="location">Gdansk, Poland</li>
+                                 <li class="berths">8 Berths</li>
+                              </ul>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+
+                  <div class="col-sm-12 col-xs-24">
+                     <div class="boat-box">
+                        <div class="box-cover">
+                           <img src="img/img6.jpg" alt="destination image" />
+                        </div>
+
+                        <span class="boat-price">€950 / day</span>
+
+                        <div class="box-details">
+                           <div class="box-meta">
+                              <h4 class="boat-name">Sense 55</h4>
+                              <ul class="clean-list boat-meta">
+                                 <li class="location">Portofino, Itali</li>
+                                 <li class="berths">12 Berths</li>
+                              </ul>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+
+                  <div class="col-sm-12 col-xs-24">
+                     <div class="boat-box">
+                        <div class="box-cover">
+                           <img src="img/img3.jpg" alt="destination image" />
+                        </div>
+
+                        <span class="boat-price">€820 / day</span>
+
+                        <div class="box-details">
+                           <div class="box-meta">
+                              <h4 class="boat-name">Cruiser 51</h4>
+                              <ul class="clean-list boat-meta">
+                                 <li class="location">Palma de Mallorca, Spain</li>
+                                 <li class="berths">10 Berths</li>
+                              </ul>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+
+                  <div class="col-sm-12 col-xs-24">
+                     <div class="boat-box">
+                        <div class="box-cover">
+                           <img src="img/img4.jpg" alt="destination image" />
+                        </div>
+
+                        <span class="boat-price">€400 / day</span>
+
+                        <div class="box-details">
+                           <div class="box-meta">
+                              <h4 class="boat-name">Cruiser 41S</h4>
+                              <ul class="clean-list boat-meta">
+                                 <li class="location">Lisbon, Portugal</li>
+                                 <li class="berths">8 Berths</li>
+                              </ul>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+
+                  <div class="load-boats-box">
+                     <div class="col-sm-12 col-xs-24">
+                        <div class="boat-box">
+                           <div class="box-cover">
+                              <img src="img/img5.jpg" alt="destination image" />
+                           </div>
+
+                           <span class="boat-price">€950 / day</span>
+
+                           <div class="box-details">
+                              <div class="box-meta">
+                                 <h4 class="boat-name">Sense 55</h4>
+                                 <ul class="clean-list boat-meta">
+                                    <li class="location">Portofino, Itali</li>
+                                    <li class="berths">12 Berths</li>
+                                 </ul>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+
+                     <div class="col-sm-12 col-xs-24">
+                        <div class="boat-box">
+                           <div class="box-cover">
+                              <img src="img/img6.jpg" alt="destination image" />
+                           </div>
+
+                           <span class="boat-price">€580 / day</span>
+
+                           <div class="box-details">
+                              <div class="box-meta">
+                                 <h4 class="boat-name">Delphia 47</h4>
+                                 <ul class="clean-list boat-meta">
+                                    <li class="location">Gdansk, Poland</li>
+                                    <li class="berths">8 Berths</li>
+                                 </ul>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+
+               <div class="align-center">
+                  <a href="#" class="btn btn-default btn-load-boats"><span class="text">Load more cars</span><i class="icon-spinner6"></i></a>
+               </div>
+            </div>
+         </section>
+      </div>
+
+      <!-- Footer -->
+      <footer class="main-footer">
+         <div class="container">
+            <div class="row">
+               <div class="col-md-5">
+                  <div class="widget widget_links">
+                     <h5 class="widget-title">Top Locations</h5>
+                     <ul>
+                        <li><a href="#">America</a></li>
+                        <li><a href="#">Africa</a></li>
+                        <li><a href="#">Asia</a></li>
+                        <li><a href="#">Europe</a></li>
+                        <li><a href="#">Australia</a></li>
+                     </ul>
+                  </div>
+               </div>
+
+               <div class="col-md-5">
+                  <div class="widget widget_links">
+                     <h5 class="widget-title">Featured cars</h5>
+                     <ul>
+                        <li><a href="#">Chevrolet</a></li>
+                        <li><a href="#">Ferrari</a></li>
+                        <li><a href="#">Jaguar</a></li>
+                        <li><a href="#">Chrysler</a></li>
+                     </ul>
+                  </div>
+               </div>
+
+               <div class="col-md-9">
+                  <div class="widget widget_social">
+                     <h5 class="widget-title">Subscribe to our newsletter</h5>
+                     <form class="subscribe-form">
+                        <div class="input-line">
+                           <input type="text" name="subscribe-email" value="" placeholder="Your email address" />
+                        </div>
+                        <button type="button" name="subscribe-submit" class="btn btn-special no-icon">Subscribe</button>
+                     </form>
+
+                     <ul class="clean-list social-block">
+                        <li>
+                           <a href="#"><i class="icon-facebook"></i></a>
+                        </li>
+                        <li>
+                           <a href="#"><i class="icon-twitter"></i></a>
+                        </li>
+                        <li>
+                           <a href="#"><i class="icon-google-plus"></i></a>
+                        </li>
+                     </ul>
+                  </div>
+               </div>
+
+               <div class="col-md-5">
+                  <div class="widget widget_links">
+                     <h5 class="widget-title">Contact us</h5>
+                     <ul>
+                        <li><a href="#">email@nava.com</a></li>
+                        <li><a href="#">+@2348068644418</a></li>
+                     </ul>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </footer>
+
+      <!-- Scripts -->
+      <script src="js/jquery.js"></script>
+      <script src="js/functions.js"></script>
+   </body>
 </html>

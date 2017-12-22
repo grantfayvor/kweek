@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en" data-ng-app="kweek-login">
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<title>Kweek! | </title>
+
+	<link href="vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+	<link href="vendors/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+	<link href="vendors/nprogress/nprogress.css" rel="stylesheet">
+	<link href="vendors/animate.css/animate.min.css" rel="stylesheet">
+
+	<link href="build/css/custom.min.css" rel="stylesheet">
+</head>
+
+<body class="login" data-ng-controller="LoginController" onload="document.loginForm.username.focus()">
+	<div>
+		<a class="hiddenanchor" id="signup"></a>
+		<a class="hiddenanchor" id="signin"></a>
+
+		<div class="login_wrapper">
+			<div class="animate form login_form">
+				<section class="login_content">
+					<form name="loginForm" data-ng-submit="login()">
+						<h1>Login Form</h1>
+						<div class="alert alert-danger" data-ng-show="login_error" style="text-align:center;">
+							<span data-ng-bind="login_error_message"></span>
+						</div>
+						<div>
+							<input type="text" class="form-control" placeholder="Username" data-ng-model="credentials.username" name="username" required=""
+							/>
+						</div>
+						<div>
+							<input type="password" class="form-control" placeholder="Password" data-ng-model="credentials.password" name="password"
+								required="" />
+						</div>
+						<div>
+							<button type="submit" class="btn btn-default">Log in</button>
+							<a class="reset_pass" href="#">Lost your password?</a>
+						</div>
+
+						<div class="clearfix"></div>
+
+						<div class="separator">
+							<p class="change_link">New to site?
+								<a href="#signup" class="to_register"> Create Account </a>
+							</p>
+
+							<div class="clearfix"></div>
+							<br />
+
+							<div>
+								<h1><i class="fa fa-paw"></i> Kweek!</h1>
+								<p>©2017 All Rights Reserved. kweek.com! no.1 car rental system. Privacy and Terms</p>
+							</div>
+						</div>
+					</form>
+				</section>
+			</div>
+		</div>
+
+		<div id="register" class="animate form registration_form">
+			<section class="login_content">
+				<form>
+					<h1>Create Account</h1>
+					<div class="alert alert-danger" data-ng-show="registration_error" style="text-align:center;">
+						<span data-ng-bind="registration_error_message"></span>
+					</div>
+					<div>
+						<input type="text" class="form-control" placeholder="Lastname" data-ng-model="new_user.lastName" required="" />
+					</div>
+					<div>
+						<input type="text" class="form-control" placeholder="Firstname" data-ng-model="new_user.firstName" required="" />
+					</div>
+					<div>
+						<input type="text" class="form-control" placeholder="Username" data-ng-model="new_user.userName" required="" />
+					</div>
+					<div>
+						<input type="password" class="form-control" placeholder="Password" data-ng-model="new_user.password" required="" />
+					</div>
+					<div>
+						<input type="text" class="form-control" placeholder="Phone Number" data-ng-model="new_user.phoneNumber" required="" />
+					</div>
+					<div>
+						<input type="email" class="form-control" placeholder="Email Address" data-ng-model="new_user.email" required="" />
+					</div>
+					<div>
+						<a class="btn btn-default submit" data-ng-submit="registerUser()">Submit</a>
+					</div>
+
+					<div class="clearfix"></div>
+
+					<div class="separator">
+						<p class="change_link">Already a member ?
+							<a href="#signin" class="to_register"> Log in </a>
+						</p>
+
+						<div class="clearfix"></div>
+						<br />
+
+						<div>
+							<h1><i class="fa fa-paw"></i> Kweek!</h1>
+							<p>©2017 All Rights Reserved. kweek.com! no.1 car rental system. Privacy and Terms</p>
+						</div>
+					</div>
+				</form>
+			</section>
+		</div>
+	</div>
+
+	<script src="/vendors/jquery/dist/jquery.min.js"></script>
+	<script src="/vendors/bootstrap/dist/js/bootstrap.min.js"></script>
+	<script src="/app/angular.js"></script>
+	<script src="/app/angular-cookies.js"></script>
+	<script src="/authentication/login.js"></script>
+</body>
+
+</html>

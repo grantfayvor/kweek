@@ -19,9 +19,15 @@ app.service('APIService', ['$http', '$q', function ($http, $q) {
     };
 
     this.postWithHeader = function(url, data, headers, successHandler, errorHandler) {
-        $http.get(KWEEK_HOST +url, data, headers)
+        $http.post(KWEEK_HOST +url, data, headers)
             .success(successHandler)
             .error(errorHandler);
+    };
+
+    this.postWithIdentity = function (url, data, successHandler, errorHandler) {
+        $http.post(KWEEK_HOST + url, data, {
+            transformRequest: angular.identity
+        }).then(successHandler, errorHandler);
     };
 
     this.delete = function (url, successHandler, errorHandler) {

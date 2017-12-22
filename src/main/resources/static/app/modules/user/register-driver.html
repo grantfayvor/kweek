@@ -1,0 +1,53 @@
+<div class="login_wrapper">
+    <div id="register" class="animate form login_form">
+        <section class="login_content">
+            <form>
+                <h1>Create Account</h1>
+                <div class="alert alert-danger" data-ng-show="registration_error" style="text-align:center;">
+                    <span data-ng-bind="registration_error_message"></span>
+                </div>
+                <div class="alert alert-success" data-ng-show="registration_success == 1" style="text-align:center;">
+                    The driver was successfully registered
+                </div>
+                <div>
+                    <input type="text" class="form-control" placeholder="Lastname" data-ng-model="new_user.lastName" required="" />
+                </div>
+                <div>
+                    <input type="text" class="form-control" placeholder="Firstname" data-ng-model="new_user.firstName" required="" />
+                </div>
+                <div>
+                    <input type="text" class="form-control" placeholder="Username" data-ng-model="new_user.username" required="" />
+                </div>
+                <div>
+                    <input type="password" class="form-control" placeholder="Password" data-ng-model="new_user.rawPassword" required="" />
+                </div>
+                <div>
+                    <input type="text" class="form-control" placeholder="Phone Number" data-ng-model="new_user.phoneNumber" required="" />
+                </div>
+                <div>
+                    <input type="email" class="form-control" placeholder="Email Address" data-ng-model="new_user.email" required="" />
+                </div>
+                <div>
+                    <a class="btn btn-default submit" data-ng-click="registerDriver()">Submit</a>
+                    <!--<a href="/" class="btn btn-default submit">Cancel</a>-->
+                </div>
+
+                <div class="clearfix"></div>
+
+                <div class="separator">
+                    <!--<p class="change_link">Already a member ?-->
+                        <!--<a href="/login" class="to_register"> Log in </a>-->
+                    <!--</p>-->
+
+                    <!--<div class="clearfix"></div>-->
+                    <!--<br />-->
+
+                    <div>
+                        <h1><i class="fa fa-paw"></i> Kweek!</h1>
+                        <p>©2017 All Rights Reserved. kweek.com! no.1 car rental system. Privacy and Terms</p>
+                    </div>
+                </div>
+            </form>
+        </section>
+    </div>
+</div>

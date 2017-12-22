@@ -17,14 +17,18 @@ app.controller('LoginController', ['$scope', '$rootScope', '$cookies', 'LoginSer
 	$scope.new_user = {};
 	$scope.login_error = false;
 	$scope.registration_error = false;
+	$scope.registration_success = 0;
 
 	var KWEEK_HOST = "http://localhost:9080";
 
 	$scope.login = function () {
 		LoginService.login($scope.credentials, function (response) {
+			console.log("response value: " + response.data);
 			if (response.data) {
-				console.log(response.data.accountType);
-				$cookies.put('user_role', response.data.accountType);
+				console.log(response.data);
+				console.log($cookies);
+				// $cookies.put('user_role', response.data);
+				document.cookie = "user_role=" + response.data;
 				window.location.href = KWEEK_HOST + "/";
 			} else {
 				$scope.login_error = true;
@@ -32,17 +36,36 @@ app.controller('LoginController', ['$scope', '$rootScope', '$cookies', 'LoginSer
 			}
 		}, function (response, status) {
 			$scope.login_error = true;
-			$scope.login_error_message = "A network error has occured. Please try again later";
+			$scope.login_error_message = "Invalid username or password";
 		});
 	};
 
 	$scope.registerUser = function () {
 		LoginService.registerUser($scope.new_user, function (response) {
 			/*if (response) {
-				window.location.href = KWEEK_HOST + "/";
+				window.location.href = KWEEK_HOST + "/dashboard";
 			} else {
 				window.location.href = KWEEK_HOST + "/login";
 			}*/
+
+			$scope.credentials.username = $scope.new_user.username;
+			$scope.credentials.password = $scope.new_user.rawPassword;
+			$scope.login();
+		}, function (response, status) {
+			$scope.registration_error = true;
+			$scope.registration_error_message = "A network error has occured. Please try registering again.";
+		});
+	};
+
+	$scope.registerDriver = function () {
+		$scope.new_user.accountType = "ROLE_DRIVER";
+		LoginService.registerUser($scope.new_user, function (response) {
+			/*if (response) {
+				window.location.href = KWEEK_HOST + "/dashboard";
+			} else {
+				window.location.href = KWEEK_HOST + "/login";
+			}*/
+			$scope.registration_success = 1;
 		}, function (response, status) {
 			$scope.registration_error = true;
 			$scope.registration_error_message = "A network error has occured. Please try registering again.";

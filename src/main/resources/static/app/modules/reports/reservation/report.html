@@ -1,0 +1,76 @@
+<div class="row" data-ng-init="getAllReservations()">
+
+	<div class="col-md-12 col-sm-12 col-xs-12">
+		<div class="x_panel">
+			<div class="x_title">
+				<h2>Reports
+					<small>presentation</small>
+				</h2>
+				<ul class="nav navbar-right panel_toolbox">
+					<li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+					</li>
+					<li class="dropdown">
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+						<ul class="dropdown-menu" role="menu">
+							<li><a href="#">Settings 1</a>
+							</li>
+							<li><a href="#">Settings 2</a>
+							</li>
+						</ul>
+					</li>
+					<li><a class="close-link"><i class="fa fa-close"></i></a>
+					</li>
+				</ul>
+				<div class="clearfix"></div>
+			</div>
+			<div class="x_content">
+				<div class="dashboard-widget-content">
+
+					<label class="col-md-4 col-sm-4 col-xs-4">Total number of cars reserved</label>
+					<span class="col-md-4 col-sm-4 col-xs-4 alert alert-info">{{reservations.length}} cars</span>
+
+					<div class="clearfix"></div>
+
+					<label>List of all reserved cars</label>
+					<div class="table-responsive">
+						<table class="table table-striped jambo_table bulk_action">
+							<thead>
+								<tr class="headings">
+									<th>
+										<input type="checkbox" id="check-all" class="flat">
+									</th>
+									<th class="column-title">S/N </th>
+									<th class="column-title">Reserved Vehicle </th>
+									<th class="column-title">Reservation Period </th>
+									<th class="column-title">Description </th>
+									<th class="column-title">Reservation Cost </th>
+									<!--<th class="column-title">Amount </th>-->
+									<th class="column-title no-link last"><span class="nobr">Action</span></th>
+									<th class="bulk-actions" colspan="7">
+										<a class="antoo" style="color:#fff; font-weight:500;">Bulk Actions ( <span class="action-cnt"> </span> ) <i class="fa fa-chevron-down"></i></a>
+									</th>
+								</tr>
+							</thead>
+
+							<tbody>
+								<tr class="even pointer" data-ng-repeat="reservation in reservations">
+									<td class="a-center ">
+										<input type="checkbox" class="flat" name="table_records">
+									</td>
+									<td class=" "><span>{{$index + 1}}</span></td>
+									<td class=" "><span data-ng-bind="reservation.vehicle.brand"></span>&nbsp;
+										<span data-ng-bind="reservation.vehicle.model"></span></td>
+									<td class=" "><span data-ng-bind="reservation.reservation"></span> <i class="success fa fa-long-arrow-up"></i></td>
+									<td class=" "><span data-ng-bind="reservation.description"></span></td>
+									<td class=" "><span data-ng-bind="reservation.vehicle.cost"></span></td>
+									<!--<td class="a-right a-right "><span></span></td>-->
+									<td class=" last"><a href="javascript:void(0)" data-ng-click="deleteReservation(reservation.id)"><i class="fa fa-trash"></i> Delete</a>
+									</td>
+								</tr>
+							</tbody>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

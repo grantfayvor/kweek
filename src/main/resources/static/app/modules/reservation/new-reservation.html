@@ -1,5 +1,5 @@
 <!-- bootstrap-daterangepicker -->
-<link href="/vendors/bootstrap-daterangepicker/daterangepicker.css" rel="stylesheet">
+<!--<link href="/vendors/bootstrap-daterangepicker/daterangepicker.css" rel="stylesheet">-->
 
 <div class="row" data-ng-init="initialize()">
 	<div class="page-title">
@@ -45,6 +45,7 @@
 				<!--PUT YOUR FORM CONTENT IN THIS DIV-->
 				<div class="x_content">
 					<div class="well" style="overflow: auto">
+						<div id="fade1" class="status alert alert-success text-center" data-ng-show="reserved == 1">Reservation was successful</div>
 						<form class="form-horizontal form-label-left" novalidate>
 							<fieldset>
 								<div class="form-group">
@@ -53,8 +54,9 @@
 										<div class="controls">
 											<div class="input-prepend input-group">
 												<span class="add-on input-group-addon"><i class="glyphicon glyphicon-calendar fa fa-calendar"></i></span>
-												<input type="text" style="width: 200px" name="reservation" data-ng-model="new_reservation.reservation" id="reservation" class="form-control"
+												<input type="text" id="myReservation" style="width: 200px" name="reservation" data-ng-model="new_reservation.reservation" class="form-control"
 													value="01/01/2016 - 01/25/2016" placeholder="start date - end date" />
+												<!--<input type="text" id="reservation" style="width: 200px" name="reservation" data-ng-model="new_reservation.reservation" class="form-control" value="01/01/2016 - 01/25/2016" />-->
 											</div>
 										</div>
 									</div>
@@ -66,6 +68,7 @@
 									<textarea id="description" class="resizable_textarea form-control" data-ng-model="new_reservation.description" placeholder="Enter the details about the reservation here"></textarea>
 								</div>
 							</div>
+							
 							<div class="ln_solid"></div>
 							<div class="form-group">
 								<div class="col-md-8 col-sm-8 col-xs-12 col-md-offset-3">
@@ -77,7 +80,7 @@
 				</div>
 			</div>
 			<!-- the date range picker doesn't seem to work without this...  no idea why though-->
-			<div class="container cropper">
+			<!--<div class="container cropper">
 				<div class="row">
 					<div class="col-md-9 docs-buttons">
 						<div class="modal fade docs-cropped" id="getCroppedCanvasModal" aria-hidden="true" aria-labelledby="getCroppedCanvasTitle"
@@ -98,14 +101,14 @@
 						</div>
 					</div>
 				</div>
-			</div>
+			</div>-->
 		</div>
 	</div>
 </div>
 
 <!-- bootstrap-daterangepicker -->
-<script src="/vendors/moment/min/moment.min.js"></script>
-<script src="/vendors/bootstrap-daterangepicker/daterangepicker.js"></script>
+<!--<script src="/vendors/moment/min/moment.min.js"></script>-->
+<!--<script src="/vendors/bootstrap-daterangepicker/daterangepicker.js"></script>-->
 
 
 <script type="text/javascript">

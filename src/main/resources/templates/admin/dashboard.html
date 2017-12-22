@@ -9,7 +9,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta name="description" content="Car Rental project to be submitted in partial fulfilment for the award of Bachelor's degree">
 
-	<title>Kweek! | </title>
+	<title>Nava! | </title>
 
 	<!-- Bootstrap -->
 	<link href="/vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -21,21 +21,27 @@
 	<link href="/vendors/iCheck/skins/flat/green.css" rel="stylesheet">
 
 	<!--pNotify-->
-	<link href="/vendors/pnotify/dist/pnotify.css" rel="stylesheet">
+	<!--<link href="/vendors/pnotify/dist/pnotify.css" rel="stylesheet">
 	<link href="/vendors/pnotify/dist/pnotify.buttons.css" rel="stylesheet">
-	<link href="/vendors/pnotify/dist/pnotify.nonblock.css" rel="stylesheet">
+	<link href="/vendors/pnotify/dist/pnotify.nonblock.css" rel="stylesheet">-->
 
 	<!-- bootstrap-progressbar -->
 	<link href="/vendors/bootstrap-progressbar/css/bootstrap-progressbar-3.3.4.min.css" rel="stylesheet">
 	<!-- bootstrap-daterangepicker -->
-	<!--<link href="/vendors/bootstrap-daterangepicker/daterangepicker.css" rel="stylesheet">-->
+	<link href="/vendors/bootstrap-daterangepicker/daterangepicker.css" rel="stylesheet">
 
 	<!-- Custom Theme Style -->
 	<link href="/build/css/custom.min.css" rel="stylesheet">
 
+
 	<!-- Google Maps API -->
 	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBC2k94EGV8e3uVNgElIEUSXa8X-Rfw8ZY&sensor=false" async defer></script>
 	<!--<script src="/node_modules/geolocation-marker/geolocation-marker.js"></script>-->
+	
+	<!--PubNub for real time tracking system-->
+	<script src="https://cdn.pubnub.com/sdk/javascript/pubnub.4.4.1.min.js"></script>
+
+	<base href="/" />
 
 </head>
 
@@ -45,7 +51,7 @@
 			<div class="col-md-3 left_col menu_fixed">
 				<div class="left_col scroll-view">
 					<div class="navbar nav_title" style="border: 0;">
-						<a href="index.html" class="site_title"><i class="fa fa-paw"></i> <span>Kweek</span></a>
+						<a href="/" class="site_title"><i class="fa fa-paw"></i> <span>Nava</span></a>
 					</div>
 
 					<div class="clearfix"></div>
@@ -75,6 +81,7 @@
 								<li><a id="vehicle" href="javascript:void(0)"><i class="fa fa-car"></i> Cars <span
                                     class="fa fa-chevron-down"></span></a>
 									<ul class="nav child_menu">
+										<li><a id="new-vehicle" ui-sref="new-vehicle" ui-sref-active="active" onclick="startLoading(0.01);">New Car</a></li>
 										<li><a id="view-vehicles" onclick="startLoading(0.01);" ui-sref="view-vehicles" ui-sref-active="active">View Cars <span
                                             class="fa fa-chevron-down"></span></a>
 											<ul class="nav child_menu">
@@ -85,7 +92,7 @@
 										</li>
 									</ul>
 								</li>
-								<li><a id="reservation" ui-sref="all-reservations" ui-sref-active="active" onclick="startLoading(0.01);"><i class="fa fa-book"></i> Reservation <span
+								<li><a id="reservation-menu" ui-sref="all-reservations" ui-sref-active="active" onclick="startLoading(0.01);"><i class="fa fa-book"></i> Reservation <span
                                     class="fa fa-chevron-down"></span></a>
 									<ul class="nav child_menu">
 										<li><a id="all-reservations" ui-sref="all-reservations" ui-sref-active="active" onclick="startLoading(0.01);">View Reservations</a>
@@ -93,16 +100,22 @@
 									</ul>
 								</li>
 								<li>
-									<a id="contact" ui-sref="contact" ui-sref-active="active" onclick="startLoading(0.01);"><i class="fa fa-phone"></i> Contact Us </a>
+									<a id="new-driver" ui-sref="new-driver" ui-sref-active="active" onclick="startLoading(0.01);"><i class="fa fa-user"></i> New Driver </a>
 								</li>
 								<li>
-									<a id="settings" ui-sref="settings" ui-sref-active="active" onclick="startLoading(0.01);"><i class="fa fa-cogs"></i> Settings </a>
+									<a id="reports" href="javascript:void(0)"><i class="fa fa-cogs"></i> Reports <span
+											class="fa fa-chevron-down"></span></a>
+									<ul class="nav child_menu">
+										<li><a id="reservation-report" ui-sref="reservation-report" ui-sref-active="active" onclick="startLoading(0.01);">Reservations</a></li>
+										<li><a id="users-report" ui-sref="users-report" ui-sref-active="active" onclick="startLoading(0.01);">Users</a></li>
+										<li><a id="cars-report" ui-sref="cars-report" ui-sref-active="active" onclick="startLoading(0.01);">Cars</a></li>
+									</ul>
 								</li>
-								<li>
+								<!--<li>
 									<a id="help" ui-sref="help" ui-sref-active="active" onclick="startLoading(0.01);"><i class="fa fa-question"></i> Help </a>
-								</li>
+								</li>-->
 								<li>
-									<a id="logout" ui-sref="log-out" ui-sref-active="active" onclick="startLoading(0.01);"><i class="fa fa-sign-out"></i> Log Out </a>
+									<a id="logout" href="/logout"><i class="fa fa-sign-out"></i> Log Out </a>
 								</li>
 							</ul>
 						</div>
@@ -152,7 +165,7 @@
 										</a>
 									</li>
 									<li><a href="javascript:;">Help</a></li>
-									<li><a href="login.html"><i class="fa fa-sign-out pull-right"></i> Log Out</a></li>
+									<li><a href="/logout"><i class="fa fa-sign-out pull-right"></i> Log Out</a></li>
 								</ul>
 							</li>
 
@@ -220,7 +233,7 @@
 			<!-- footer content -->
 			<!--<footer>
 				<div class="pull-left" style="margin-left:20%;">
-					copyright &copy; 2017. <a href="#">kweek.com</a>
+					copyright &copy; 2017. <a href="#">Nava.com</a>
 				</div>
 				<div class="pull-right">
 					Gentelella - Bootstrap Admin Template by <a href="https://colorlib.com">Colorlib</a>
@@ -259,31 +272,19 @@
 	<script src="/vendors/iCheck/icheck.min.js"></script>
 	<!-- Skycons -->
 	<script src="/vendors/skycons/skycons.js"></script>
-	<!-- Flot -->
-	<!--<script src="/vendors/Flot/jquery.flot.js"></script>-->
-	<!--<script src="/vendors/Flot/jquery.flot.pie.js"></script>-->
-	<!--<script src="/vendors/Flot/jquery.flot.time.js"></script>-->
-	<!--<script src="/vendors/Flot/jquery.flot.stack.js"></script>-->
-	<!--<script src="/vendors/Flot/jquery.flot.resize.js"></script>-->
-	<!-- Flot plugins -->
-	<!--<script src="/vendors/flot.orderbars/js/jquery.flot.orderBars.js"></script>-->
-	<!--<script src="/vendors/flot-spline/js/jquery.flot.spline.min.js"></script>-->
-	<!--<script src="/vendors/flot.curvedlines/curvedLines.js"></script>-->
-	<!-- DateJS -->
-	<!--<script src="/vendors/DateJS/build/date.js"></script>-->
-	<!-- bootstrap-daterangepicker -->
-	<!--<script src="/vendors/moment/min/moment.min.js"></script>-->
-	<!--<script src="/vendors/bootstrap-daterangepicker/daterangepicker.js"></script>-->
+	<script src="/vendors/moment/min/moment.min.js"></script>
+	<script src="/vendors/bootstrap-daterangepicker/daterangepicker.js"></script>
 
 	<!--pNotify-->
-	<script src="/vendors/pnotify/dist/pnotify.js"></script>
+	<!--<script src="/vendors/pnotify/dist/pnotify.js"></script>
 	<script src="/vendors/pnotify/dist/pnotify.buttons.js"></script>
-	<script src="/vendors/pnotify/dist/pnotify.nonblock.js"></script>
+	<script src="/vendors/pnotify/dist/pnotify.nonblock.js"></script>-->
 
 	<!-- Custom Theme Scripts -->
+	<!--<script src="/build/js/custom.js"></script>-->
 	<script src="/build/js/custom.min.js"></script>
 
-	<!-- kweek compiled javascript -->
+	<!-- nava compiled javascript -->
 	<script src="/app/compiled/js/kweek.min.js"></script>
 
 </body>

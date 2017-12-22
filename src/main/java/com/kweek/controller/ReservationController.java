@@ -27,17 +27,18 @@ public class ReservationController extends AbstractController<Reservation>{
         super(reservationService);
     }
 
+    @RequestMapping("/")
+    @ResponseBody
+    public List<Reservation> getAllReservation(HttpSession httpSession){
+        return reservationService.findAll();
+    }
+
     @RequestMapping("/user")
     @ResponseBody
     public List<Reservation> getUserReservation(HttpSession httpSession){
         Object user = httpSession.getAttribute("sessionUser");
         if(user instanceof User) {
-            if(AccountType.ROLE_USER.equals(((User) user).getAccountType())) {
-                return reservationService.findUserReservation(((User) user));
-            } else {
-                System.out.print("not authorized to perform this function");
-                return null;
-            }
+            return reservationService.findUserReservation(((User) user));
         }
         else return null;
     }

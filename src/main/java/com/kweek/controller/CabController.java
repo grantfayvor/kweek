@@ -25,8 +25,8 @@ public class CabController {
     public CabController() {
     }
 
-    @RequestMapping("/driver")
-    public Boolean driverIsReady(@RequestBody Coordinates coordinates, @RequestParam("ready") boolean ready, HttpSession httpSession){
+    @RequestMapping(value = "/driver", method = RequestMethod.POST)
+    public boolean driverIsReady(@RequestBody Coordinates coordinates, @RequestParam("ready") boolean ready, HttpSession httpSession){
         Object object = httpSession.getAttribute("sessionUser");
         if(object instanceof User){
             if(AccountType.ROLE_DRIVER.equals(((User) object).getAccountType())) {
@@ -40,12 +40,14 @@ public class CabController {
     }
 
     @RequestMapping(value = "/call-a-cab", method = RequestMethod.POST)
-    public void callACab(@RequestBody Coordinates coordinates){
-        cabService.alertNearbyDrivers(coordinates);
+    public void callACab(@RequestBody Coordinates coordinates, @RequestParam("destination") String destination){
+        cabService.alertNearbyDrivers(coordinates, destination);
     }
 
     @RequestMapping("/available-drivers")
     public ArrayList<Coordinates> availableDrivers(){
         return cabService.driversLocation();
     }
+
+//    public boolean acceptTheRide(@RequestParam )
 }

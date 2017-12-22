@@ -1,5 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" data-ng-app="kweek-ride">
 
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -17,30 +17,25 @@
 	<link href="build/css/custom.min.css" rel="stylesheet">
 </head>
 
-<body class="login">
+<body class="login" data-ng-controller="RideController">
 	<div>
-		<div class="login_wrapper">
-			<div class="animate form login_form">
-				<section class="login_content">
+		<div>
+			<div class="animate">
+				<section>
                     <div>
-                        A passenger with coordinates <span data-ng-bind="passenger.coordinates"></span> has just requested for a ride click either of the buttons below to accept
-                        or decline the ride
+                        A passenger with coordinates: latitude = <span th:text="${param.latitude}"></span> and longitude = <span th:text="${param.longitude}"></span> has just requested for a ride click either of the buttons below to accept
+                        or decline the ride. The passenger's destination is <span th:text="${param.destination}"></span>.
                     </div>
                     <div class="">
-						<button type="button" class="btn btn-default btn-lg" data-ng-click="acceptTheRide()">Accept the ride</button>
+						<button type="button" class="btn btn-primary btn-lg" data-ng-click="acceptTheRide()">Accept the ride</button>
 					</div>
 					<div class="">
-						<button type="button" class="btn btn-default btn-lg" data-ng-click="declineTheRide()">Decline the ride</button>
+						<button type="button" class="btn btn-danger btn-lg" data-ng-click="declineTheRide()">Decline the ride</button> or do nothing.
 					</div>
 				</section>
 			</div>
 		</div>
 
-		<div id="register" class="animate form registration_form">
-			<section class="login_content">
-
-			</section>
-		</div>
 		<div>
 			<h1><i class="fa fa-paw"></i> Kweek!</h1>
 			<p>©2017 All Rights Reserved. kweek.com! no.1 car rental system. Privacy and Terms</p>
@@ -50,7 +45,7 @@
 	<script src="/vendors/jquery/dist/jquery.min.js"></script>
 	<script src="/vendors/bootstrap/dist/js/bootstrap.min.js"></script>
     <script src="/app/angular.js"></script>
-	<script src="/app/angular-cookies.js"></script>
+	<script src="/ride/ride.js"></script>
 </body>
 
 </html>

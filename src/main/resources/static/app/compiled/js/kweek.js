@@ -38146,11 +38146,17 @@ angular.module('ui.router.state')
   .filter('includedByState', $IncludedByStateFilter);
 })(window, window.angular);;var map;
 var marker;
+//added something here
+var lineCoords = [];
+var pos = {
+    lat: 6.247214,
+    lng: 7.116212099999984
+};
 
 var app = angular.module('kweek', ['ngCookies', 'ui.router']);
 
-app.config(['$httpProvider', '$cookiesProvider', '$stateProvider', '$urlRouterProvider',
-    function ($httpProvider, $cookiesProvider, $stateProvider, $urlRouterProvider) {
+app.config(['$httpProvider', '$locationProvider', '$cookiesProvider', '$stateProvider', '$urlRouterProvider',
+    function ($httpProvider, $locationProvider, $cookiesProvider, $stateProvider, $urlRouterProvider) {
 
         $httpProvider.defaults.headers.common['Accept'] = "application/json";
         $httpProvider.defaults.headers.common['Content-Type'] = "application/json";
@@ -38159,6 +38165,8 @@ app.config(['$httpProvider', '$cookiesProvider', '$stateProvider', '$urlRouterPr
         $cookiesProvider.defaults.path = "/";
         $cookiesProvider.defaults.secure = true;
         // $cookiesProvider.defaults.expires = fill in a date;
+
+        $locationProvider.html5Mode(true);
 
         $urlRouterProvider.otherwise('/');
 
@@ -38184,22 +38192,22 @@ app.config(['$httpProvider', '$cookiesProvider', '$stateProvider', '$urlRouterPr
                 templateUrl: '/app/modules/vehicle/view-salon.html'
             })
             .state('new-vehicle', {
-                url: '/vehicle/new-vehicle',
+                url: '/new-vehicle',
                 controller: 'VehicleController',
                 templateUrl: '/app/modules/vehicle/new-vehicle.html'
             })
             .state('view-vehicles', {
-                url: '/vehicle/all-vehicles',
+                url: '/all-vehicles',
                 controller: 'VehicleController',
                 templateUrl: '/app/modules/vehicle/view-vehicles.html'
             })
             .state('new-reservation', {
-                url: '/reservation/new-reservation',
+                url: '/new-reservation',
                 controller: 'ReservationController',
                 templateUrl: '/app/modules/reservation/new-reservation.html'
             })
             .state('all-reservations', {
-                url: '/reservation/all-reservations',
+                url: '/all-reservations',
                 controller: 'ReservationController',
                 templateUrl: '/app/modules/reservation/view-reservations.html'
             })
@@ -38207,6 +38215,31 @@ app.config(['$httpProvider', '$cookiesProvider', '$stateProvider', '$urlRouterPr
                 url: '/user/profile',
                 controller: 'UserController',
                 templateUrl: '/app/modules/user/user-profile.html'
+            })
+            .state('reservation-report', {
+                url: '/reports/reservation',
+                controller: 'ReportController',
+                templateUrl: '/app/modules/reports/reservation/report.html'
+            })
+            .state('users-report', {
+                url: '/reports/users',
+                controller: 'ReportController',
+                templateUrl: '/app/modules/reports/users/report.html'
+            })
+            .state('cars-report', {
+                url: '/reports/cars',
+                controller: 'ReportController',
+                templateUrl: '/app/modules/reports/cars/report.html'
+            })
+            .state('feedback', {
+                url: '/user/feedback',
+                controller: 'UserController',
+                templateUrl: '/app/modules/user/feedback.html'
+            })
+            .state('new-driver', {
+                url: '/new-driver',
+                controller: 'UserController',
+                templateUrl: '/app/modules/user/register-driver.html'
             });
 
     }]);;app.service('APIService', ['$http', '$q', function ($http, $q) {
@@ -38230,9 +38263,15 @@ app.config(['$httpProvider', '$cookiesProvider', '$stateProvider', '$urlRouterPr
     };
 
     this.postWithHeader = function(url, data, headers, successHandler, errorHandler) {
-        $http.get(KWEEK_HOST +url, data, headers)
+        $http.post(KWEEK_HOST +url, data, headers)
             .success(successHandler)
             .error(errorHandler);
+    };
+
+    this.postWithIdentity = function (url, data, successHandler, errorHandler) {
+        $http.post(KWEEK_HOST + url, data, {
+            transformRequest: angular.identity
+        }).then(successHandler, errorHandler);
     };
 
     this.delete = function (url, successHandler, errorHandler) {
@@ -38262,20 +38301,54 @@ app.config(['$httpProvider', '$cookiesProvider', '$stateProvider', '$urlRouterPr
     };
 
 
-}]);;app.controller('MainController', ['$scope', '$rootScope', '$cookies', 'MainService', function ($scope, $rootScope, $cookies, MainService) {
+}]);;app.controller('MainController', ['$scope', '$rootScope', '$cookies', '$http', 'MainService', function ($scope, $rootScope, $cookies, $http, MainService) {
 
     $scope.passenger = {};
     $scope.availableDrivers = [];
     $scope.user_role = $cookies.get('user_role');
+    $scope.call = 0;
+    $scope.status = 0;
+    var pubnub;
 
     $scope.initialize = function () {
         initMap();
+
+        /*setTimeout(function () {
+            var pnChannel = "map-channel";
+            if (PubNub !== undefined || PubNub) {
+                pubnub = new PubNub({
+                    publishKey: 'pub-c-88d0781d-6088-4982-b12c-85e42a852fb7',
+                    subscribeKey: 'sub-c-5677dbd0-7e0a-11e7-ad83-5a7e2f01c2eb'
+                });
+            }
+            pubnub.subscribe({ channels: [pnChannel] });
+            pubnub.addListener({ message: redraw });
+            setInterval(function () {
+                pubnub.publish({
+                    channel: pnChannel,
+                    message: {
+                        lat: pos.lat + 0.001,
+                        lng: pos.lng + 0.01
+                    }
+                });
+            }, 5000);
+        }, 500);*/
+    };
+
+    $scope.showCabModal = function(){
+        $('#modal1').modal('show');
     };
 
     $scope.callACab = function () {
-        MainService.callACab(marker.getPosition().toJSON(), function (response) {
+        $('#modal1').modal('hide');
+        MainService.callACab(marker ? marker.getPosition().toJSON() : pos, $scope.destination, function (response) {
             $cookies.putObject("coordinates", marker.getPosition);
             console.log("congrats, nearby drivers have all been alerted");
+            $scope.call = 1;
+            setTimeout(function () {
+                $("#fade1").fadeOut(5000);
+                $scope.call = 2;
+            }, 1000);
         }, function (response, status) {
             console.log("an error occured while alerting nearby drivers");
         });
@@ -38283,8 +38356,13 @@ app.config(['$httpProvider', '$cookiesProvider', '$stateProvider', '$urlRouterPr
 
     $scope.driverIsReady = function () {
         MainService.driverIsReady(marker.getPosition().toJSON(), true, function (response) {
-            if (response.data) {
+            if (response.data === true) {
                 console.log("yes dearie... driver is ready");
+                $scope.status = 1;
+                setTimeout(function () {
+                    $("#fade2").fadeOut(5000);
+                    $scope.status = 2;
+                }, 1000);
             } else {
                 console.log("driver is not ready but still success callback");
             }
@@ -38303,7 +38381,10 @@ app.config(['$httpProvider', '$cookiesProvider', '$stateProvider', '$urlRouterPr
 
 
     var initMap = function () {
-        console.log("initMap function has just been called");
+        //confirm this code
+        if (google === undefined || !google) {
+            $http.get("https://maps.googleapis.com/maps/api/js?key=AIzaSyBC2k94EGV8e3uVNgElIEUSXa8X-Rfw8ZY&sensor=false");
+        }
         google.maps.visualRefresh = true;
         var mapOptions = {
             center: new google.maps.LatLng(17.240498, 82.287598),
@@ -38320,17 +38401,26 @@ app.config(['$httpProvider', '$cookiesProvider', '$stateProvider', '$urlRouterPr
         marker = new google.maps.Marker(markerOptions);
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(function (position) {
-                var pos = {
-                    lat: position.coords.latitude,
-                    lng: position.coords.longitude
+                //made pos a global object defined in config.js
+                pos = {
+                     lat: position.coords.latitude,
+                     lng: position.coords.longitude
+//                    lat: 6.247214,
+//                    lng: 7.116212099999984
                 };
 
                 marker.setPosition(pos);
                 map.setCenter(pos);
                 populateDrivers();
+                //added something here
+//                lineCoords.push(new google.maps.LatLng(pos.lat, pos.lng));
             }, function () {
                 handleLocationError(true, infoWindow, map.getCenter());
-            });
+            }, {
+                    maximumAge: 600000,
+                    timeout: 5000,
+                    enableHighAccuracy: true
+                });
         } else {
             handleLocationError(false, infoWindow, map.getCenter);
         }
@@ -38347,11 +38437,11 @@ app.config(['$httpProvider', '$cookiesProvider', '$stateProvider', '$urlRouterPr
         var drivers = [];
         for (var i = 0; i < $scope.availableDrivers.length; i++) {
             drivers[i] = new google.maps.Marker({
-                position: $scope.availableDrivers[i],
-                /*position: {
+                // position: $scope.availableDrivers[i],
+                position: {
                     lat: $scope.availableDrivers[i].lat,
                     lng: $scope.availableDrivers[i].lng
-                },*/
+                },
                 map: map,
                 animation: google.maps.Animation.BOUNCE,
                 title: 'Hey! you can call for me...',
@@ -38367,12 +38457,29 @@ app.config(['$httpProvider', '$cookiesProvider', '$stateProvider', '$urlRouterPr
     };
 
 
+    //added these next functions
+
+    var redraw = function (payload) {
+        pos.lat = payload.message.lat;
+        pos.lng = payload.message.lng;
+
+        map.setCenter(pos);
+        marker.setPosition({ lat: pos.lat, lng: pos.lng, alt: 0 });
+
+        lineCoords.push(new google.maps.LatLng(pos.lat, pos.lng));
+
+        var lineCoordinatesPath = new google.maps.Polyline({ path: lineCoords, geodesic: true, strokeColor: '#2E10FF' });
+        lineCoordinatesPath.setMap(map);
+    };
+
+
+
 }]);
 
 app.service('MainService', ['APIService', function (APIService) {
 
-    this.callACab = function (coordinates, successHandler, errorHandler) {
-        APIService.post("/api/cab/call-a-cab", coordinates, successHandler, errorHandler);
+    this.callACab = function (coordinates, destination, successHandler, errorHandler) {
+        APIService.post("/api/cab/call-a-cab?destination=" +destination, coordinates, successHandler, errorHandler);
     };
 
     this.driverIsReady = function (coordinates, readyState, successHandler, errorHandler) {
@@ -38383,7 +38490,94 @@ app.service('MainService', ['APIService', function (APIService) {
         APIService.get("/api/cab/available-drivers", successHandler, errorHandler);
     };
 }]);
-;app.controller('ReservationController', ['$scope', '$rootScope', 'ReservationService', function ($scope, $rootScope, ReservationService) {
+;app.controller('ReportController', ['$scope', '$rootScope', 'ReportService', function ($scope, $rootScope, ReportService) {
+
+    $scope.reservations = [];
+
+    $scope.initialize = function () {
+//        $scope.getAllReservations();
+    };
+
+    $scope.getAllReservations = function () {
+        ReportService.getAllReservations(function (response) {
+            $scope.reservations = response.data;
+        }, function (data, status) {
+            console.log("error occured while fetching all reservations");
+        });
+    };
+
+    $scope.deleteReservation = function (reservationId) {
+        ReportService.deleteReservation(reservationId, function (response) {
+            console.log("reservation has been deleted");
+            $scope.getAllReservations();
+        }, function (response, status) {
+            console.log("error deleting new reservation");
+        });
+    };
+
+    $scope.getAllUsers = function () {
+        ReportService.getAllUsers(function (response) {
+            $scope.users = response.data;
+        }, function(data, status){
+            console.log("error occured while fetching registered users");
+        });
+    };
+
+    $scope.deleteUser = function (userId) {
+        ReportService.deleteUser(userId, function (response) {
+            console.log("user has been deleted");
+            $scope.getAllUsers();
+        }, function (response, status) {
+            console.log("error occured while deleting user");
+        });
+    };
+
+    $scope.getAllVehicles = function () {
+        ReportService.getAllVehicles(function (response) {
+            $scope.vehicles = response.data;
+        }, function(data, status){
+            console.log("error occured while fetching available vehicles");
+        });
+    };
+
+    $scope.deleteVehicle = function (vehicleId) {
+        ReportService.deleteVehicle(vehicleId, function (response) {
+            console.log("vehicle has been deleted");
+            $scope.getAllVehicles();
+        }, function (response, status) {
+            console.log("error occured while deleting vehicle");
+        });
+    };
+
+}]);
+
+app.service('ReportService', ['APIService', function (APIService) {
+
+    this.getAllReservations = function (successHandler, errorHandler) {
+        APIService.get("/api/reservation/", successHandler, errorHandler);
+    };
+
+    this.deleteReservation = function (reservationId, successHandler, errorHandler) {
+        APIService.delete("/api/reservation/delete?id=" + reservationId, successHandler, errorHandler);
+    };
+
+    this.getAllUsers = function(successHandler, errorHandler){
+        APIService.get("/api/user", successHandler, errorHandler);
+    };
+
+    this.deleteUser = function(userId, successHandler, errorHandler){
+        APIService.delete("/api/user/delete?id=" +userId, successHandler, errorHandler);
+    };
+
+    this.getAllVehicles = function(successHandler, errorHandler){
+        APIService.get("/api/vehicle", successHandler, errorHandler);
+    };
+
+    this.deleteVehicle = function(vehicleId, successHandler, errorHandler){
+        APIService.delete("/api/vehicle/delete?id=" +vehicleId, successHandler, errorHandler);
+    };
+
+}]);;app.controller('ReservationController', ['$scope', '$rootScope', 'ReservationService', function ($scope, $rootScope, ReservationService) {
 
     $scope.user_reservations = [];
 
@@ -38409,7 +38603,8 @@ app.service('MainService', ['APIService', function (APIService) {
     };
 
     var initDateRangePicker = function () {
-        $('#reservation').daterangepicker(null, function(start, end, label) {
+        console.log("hey i just initialized daterangepicker");
+        $('#myReservation').daterangepicker(null, function(start, end, label) {
 			console.log(start.toISOString(), end.toISOString(), label);
 		});
     };
@@ -38434,20 +38629,73 @@ app.service('ReservationService', ['APIService', function (APIService) {
         APIService.delete("/api/reservation/delete?id=" + reservationId, successHandler, errorHandler);
     };
 
-}]);;app.controller('UserController', ['$rootScope', '$scope', '$location', 'UserService', function ($rootScope, $scope, $location, UserService) {
+}]);;app.controller('UserController', ['$rootScope', '$scope', 'UserService', function ($rootScope, $scope, UserService) {
 
     //remember to add the $location dependency in the UserController
 
     $scope.credentials = {};
+    $scope.new_user = {};
+    $scope.success = 0;
+    $scope.registration_error = false;
+    $scope.registration_success = 0;
 
     $scope.initialize = function () {
 //        authenticate();
     };
 
+    $scope.addFeedback = function () {
+        UserService.addFeedback($scope.message, function (response) {
+            if (response.data === true) {
+                $scope.success = 1;
+            }
+            setTimeout(function () {
+                $("#fade1").fadeOut(5000);
+                $scope.success = 2;
+            }, 1000);
+        }, function (response, status) {
+            console.log("error in sending feedback");
+        });
+    };
+
+    $scope.getFeedbacks = function () {
+        UserService.getFeedbacks(function (response) {
+            $scope.all_feedbacks = response.data;
+        }, function (response, status) {
+            console.log("error in getting feedbacks");
+        });
+    };
+
+    $scope.registerDriver = function () {
+    	$scope.new_user.accountType = "ROLE_DRIVER";
+    	UserService.registerUser($scope.new_user, function (response) {
+   			/*if (response) {
+   				window.location.href = KWEEK_HOST + "/dashboard";
+   			} else {
+   				window.location.href = KWEEK_HOST + "/login";
+   			}*/
+    		$scope.registration_success = 1;
+    		$scope.new_user = {};
+    	}, function (response, status) {
+   			$scope.registration_error = true;
+   			$scope.registration_error_message = "A network error has occured. Please try registering again.";
+   		});
+   	};
+
 }]);
 
 app.service('UserService', ['APIService', function (APIService) {
 
+    this.addFeedback = function (message, successHandler, errorHandler) {
+        APIService.post("/api/user/feedback", message, successHandler, errorHandler);
+    };
+
+    this.getFeedbacks = function (successHandler, errorHandler) {
+        APIService.post("/api/user/feedback/all", successHandler, errorHandler);
+    };
+
+	this.registerUser = function (userDetails, successHandler, errorHandler) {
+		APIService.post("/api/user/new", userDetails, successHandler, errorHandler);
+	};
 }]);;app.controller('VehicleController', ['$scope', '$rootScope', 'VehicleService', 'ReservationService', function ($scope, $rootScope, VehicleService, ReservationService) {
 
     $scope.new_vehicle = {};
@@ -38456,6 +38704,12 @@ app.service('UserService', ['APIService', function (APIService) {
     $scope.new_reservation = {};
     $scope.vehicle_details = {};
     $scope.page_title = "view-vehicles";
+    $scope.reserved = 0;
+    $scope.added = 0;
+
+    $scope.initialize = function () {
+        initDateRangePicker();
+    };
 
 
     $scope.getAllVehicles = function () {
@@ -38475,8 +38729,21 @@ app.service('UserService', ['APIService', function (APIService) {
     };
 
     $scope.addNewVehicle = function () {
-        VehicleService.addNewVehicle($scope.new_vehicle, function (response) {
+        var payload = new FormData();
+        payload.append("brand", $scope.new_vehicle.brand);
+        payload.append("type", $scope.new_vehicle.type);
+        payload.append("model", $scope.new_vehicle.model);
+        payload.append("image", $scope.new_vehicle.image);
+        payload.append("cost", $scope.new_vehicle.cost);
+        payload.append("description", $scope.new_vehicle.description);
+        VehicleService.addNewVehicle(payload, function (response) {
+            $scope.new_vehicle = {};
+            $scope.added = 1;
             console.log("vehicle has been added successfully");
+            setTimeout(function () {
+                $("#fade2").fadeOut(5000);
+                $scope.added = 2;
+            }, 1000);
         }, function (data, status) {
             console.log("vehicle addition failure");
         });
@@ -38489,7 +38756,13 @@ app.service('UserService', ['APIService', function (APIService) {
 
     $scope.addNewReservation = function () {
         ReservationService.newReservation($scope.new_reservation, function (response) {
+            $scope.new_reservation = {};
+            $scope.reserved = 1;
             console.log("added new reservation");
+            setTimeout(function () {
+                $("#fade1").fadeOut(5000);
+                $scope.reserved = 2;
+            }, 1000);
         }, function (data, status) {
             console.log("error in adding new reservation");
         });
@@ -38504,14 +38777,27 @@ app.service('UserService', ['APIService', function (APIService) {
         $scope.page_title = "view-vehicles";
     };
 
+    var initDateRangePicker = function () {
+        console.log("hey i just initialized daterangepicker");
+        $('#myReservation').daterangepicker(null, function (start, end, label) {
+            console.log(start.toISOString(), end.toISOString(), label);
+        });
+    };
+
 
 }]);
 
-app.service('VehicleService', ['APIService', function (APIService) {
+app.service('VehicleService', ['APIService', '$http', function (APIService, $http) {
 
 
     this.addNewVehicle = function (vehicleDetails, successHandler, errorHandler) {
-        APIService.post('/api/vehicle/new-vehicle', vehicleDetails, successHandler, errorHandler);
+        // APIService.postWithIdentity('/api/vehicle/new-vehicle?image=' + payload, vehicleDetails, successHandler, errorHandler);
+        $http.post('/api/vehicle/new-vehicle', vehicleDetails, {
+            transformRequest: angular.identity,
+            headers: {
+                'Content-Type': undefined
+            }
+        }).then(successHandler, errorHandler);
     };
 
     this.getAllVehicles = function (successHandler, errorHandler) {
@@ -38526,4 +38812,20 @@ app.service('VehicleService', ['APIService', function (APIService) {
         APIService.get('/api/vehicle/{param}', successHandler, errorHandler);
     };
 
+}]);
+
+app.directive("fileModel", ['$parse', function ($parse) {
+    return {
+        restrict: 'A',
+        link: function (scope, element, attrs) {
+            var model = $parse(attrs.fileModel);
+            var modelSetter = model.assign;
+
+            element.bind('change', function () {
+                scope.$apply(function () {
+                    modelSetter(scope, element[0].files[0]);
+                });
+            });
+        }
+    };
 }]);

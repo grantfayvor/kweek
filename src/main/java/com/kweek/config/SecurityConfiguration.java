@@ -33,11 +33,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/*.js", "/*.html", "/*.css",
                         "/build/css/*.css", "/build/js/*.js", "/production/*.html", "/production/css/maps/*.css",
-                        "/production/images/*.jpg", "/production/images/*.png", "/production/js/**/*.js",
+                        "/production/images/*.jpg", "/production/images/*.png", "/production/js/**/*.js", "/vendors/font-awesome/fonts/*",
                         "/vendors/font-awesome/fonts/fontawesome-webfont.woff?v=4.6.3", "/vendors/font-awesome/fonts/fontawesome-webfont.ttf?v=4.6.3",
                         "/vendors/**/*.css", "/vendors/**/*.js", "/static/**", "/templates/**",
                         "/app/angular.js", "/app/angular-cookies.js", "/authentication/login.js",
-                        "/login*", "/logout", "/authenticate")
+                        "/login*", "/signup", "/api/user/new", "/logout", "/authenticate", "/home", "/css/*", "/css/fonts/*", "/img/*", "/js/*")
                 .permitAll()
                 .anyRequest()
                 .authenticated()

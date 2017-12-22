@@ -44,11 +44,13 @@
 							<div class="clearfix"></div>
 						</div>
 						<div class="x_content">
+							<div id="fade2" class="status alert alert-success text-center" data-ng-show="added == 1">Vehicle was successfully added.</div>
 
 
 							<!-- Smart Wizard -->
 							<!--<form class="form-horizontal form-label-left input_mask" enctype="multipart/form-data" data-ng-submit="addNewVehicle()" novalidate>-->
-							<form class="form-horizontal form-label-left" enctype="multipart/form-data" data-ng-submit="addNewVehicle()" novalidate>
+							<!--<form class="form-horizontal form-label-left" enctype="multipart/form-data" data-ng-submit="addNewVehicle()" novalidate>-->
+							<form class="form-horizontal form-label-left" data-ng-submit="addNewVehicle()" novalidate>
 								<div id="wizard" class="form_wizard wizard_horizontal">
 									<ul class="wizard_steps">
 										<li>
@@ -84,19 +86,19 @@
 											<div class="col-md-8 col-sm-8 col-xs-12 form-group has-feedback">
 												<input type="text" class="form-control has-feedback-left" id="inputSuccess2" data-ng-model="new_vehicle.brand" placeholder="Vehicle Brand"
 													required>
-												<span class="fa fa-user form-control-feedback left" aria-hidden="true"></span>
+												<span class="fa fa-paw form-control-feedback left" aria-hidden="true"></span>
 											</div>
 
 											<div class="col-md-8 col-sm-8 col-xs-12 form-group has-feedback">
 												<input type="text" class="form-control has-feedback-left" id="inputSuccess3" data-ng-model="new_vehicle.type" placeholder="Vehicle Type"
 													required>
-												<span class="fa fa-envelope form-control-feedback left" aria-hidden="true"></span>
+												<span class="fa fa-car form-control-feedback left" aria-hidden="true"></span>
 											</div>
 
 											<div class="col-md-8 col-sm-8 col-xs-12 form-group has-feedback">
 												<input type="text" class="form-control has-feedback-left" id="inputSuccess4" data-ng-model="new_vehicle.model" placeholder="Vehicle Model"
 													required>
-												<span class="fa fa-envelope form-control-feedback left" aria-hidden="true"></span>
+												<span class="fa fa-info form-control-feedback left" aria-hidden="true"></span>
 											</div>
 										</div>
 									</div>
@@ -109,6 +111,16 @@
 											<br />
 											<br />
 										</div>-->
+										<div class="x_content">
+											<div class="ln_solid"></div>
+											
+											<div class="form-group">
+												<div class="col-md-8 col-sm-8 col-xs-12 form-group has-feedback">
+													<input type="file" class="form-control has-feedback-left" id="inputSuccess7" file-model="new_vehicle.image" />
+													<span class="fa fa-image form-control-feedback left" aria-hidden="true"></span>
+												</div>
+											</div>
+										</div>
 									</div>
 									<div id="step-3">
 										<h2 class="StepTitle">Vehicle Description</h2>
@@ -116,12 +128,12 @@
 											<div class="ln_solid"></div>
 											<div class="form-group">
 												<div class="col-md-8 col-sm-8 col-xs-12 form-group has-feedback">
-													<input type="number" class="form-control has-feedback-left" id="inputSuccess5" data-ng-model="new_vehicle.cost" placeholder="Vehicle Reservation Cost"
+													<input type="text" class="form-control has-feedback-left" id="inputSuccess5" data-ng-model="new_vehicle.cost" placeholder="Vehicle Reservation Cost"
 														required>
-													<span class="fa fa-envelope form-control-feedback left" aria-hidden="true"></span>
+													<span class="fa fa-money form-control-feedback left" aria-hidden="true"></span>
 												</div>
 												<div class="col-md-9 col-sm-9 col-xs-12">
-													<textarea class="resizable_textarea form-control" data-ng-model="new_vehicle.description" placeholder="This text area automatically resizes its height as you fill in more text courtesy of autosize-master it out..."
+													<textarea class="resizable_textarea form-control" data-ng-model="new_vehicle.description" placeholder="Vehicle description"
 														required></textarea>
 												</div>
 											</div>

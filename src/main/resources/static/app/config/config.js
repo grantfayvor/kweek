@@ -1,10 +1,16 @@
 var map;
 var marker;
+//added something here
+var lineCoords = [];
+var pos = {
+    lat: 6.247214,
+    lng: 7.116212099999984
+};
 
 var app = angular.module('kweek', ['ngCookies', 'ui.router']);
 
-app.config(['$httpProvider', '$cookiesProvider', '$stateProvider', '$urlRouterProvider',
-    function ($httpProvider, $cookiesProvider, $stateProvider, $urlRouterProvider) {
+app.config(['$httpProvider', '$locationProvider', '$cookiesProvider', '$stateProvider', '$urlRouterProvider',
+    function ($httpProvider, $locationProvider, $cookiesProvider, $stateProvider, $urlRouterProvider) {
 
         $httpProvider.defaults.headers.common['Accept'] = "application/json";
         $httpProvider.defaults.headers.common['Content-Type'] = "application/json";
@@ -13,6 +19,8 @@ app.config(['$httpProvider', '$cookiesProvider', '$stateProvider', '$urlRouterPr
         $cookiesProvider.defaults.path = "/";
         $cookiesProvider.defaults.secure = true;
         // $cookiesProvider.defaults.expires = fill in a date;
+
+        $locationProvider.html5Mode(true);
 
         $urlRouterProvider.otherwise('/');
 
@@ -38,22 +46,22 @@ app.config(['$httpProvider', '$cookiesProvider', '$stateProvider', '$urlRouterPr
                 templateUrl: '/app/modules/vehicle/view-salon.html'
             })
             .state('new-vehicle', {
-                url: '/vehicle/new-vehicle',
+                url: '/new-vehicle',
                 controller: 'VehicleController',
                 templateUrl: '/app/modules/vehicle/new-vehicle.html'
             })
             .state('view-vehicles', {
-                url: '/vehicle/all-vehicles',
+                url: '/all-vehicles',
                 controller: 'VehicleController',
                 templateUrl: '/app/modules/vehicle/view-vehicles.html'
             })
             .state('new-reservation', {
-                url: '/reservation/new-reservation',
+                url: '/new-reservation',
                 controller: 'ReservationController',
                 templateUrl: '/app/modules/reservation/new-reservation.html'
             })
             .state('all-reservations', {
-                url: '/reservation/all-reservations',
+                url: '/all-reservations',
                 controller: 'ReservationController',
                 templateUrl: '/app/modules/reservation/view-reservations.html'
             })
@@ -61,6 +69,31 @@ app.config(['$httpProvider', '$cookiesProvider', '$stateProvider', '$urlRouterPr
                 url: '/user/profile',
                 controller: 'UserController',
                 templateUrl: '/app/modules/user/user-profile.html'
+            })
+            .state('reservation-report', {
+                url: '/reports/reservation',
+                controller: 'ReportController',
+                templateUrl: '/app/modules/reports/reservation/report.html'
+            })
+            .state('users-report', {
+                url: '/reports/users',
+                controller: 'ReportController',
+                templateUrl: '/app/modules/reports/users/report.html'
+            })
+            .state('cars-report', {
+                url: '/reports/cars',
+                controller: 'ReportController',
+                templateUrl: '/app/modules/reports/cars/report.html'
+            })
+            .state('feedback', {
+                url: '/user/feedback',
+                controller: 'UserController',
+                templateUrl: '/app/modules/user/feedback.html'
+            })
+            .state('new-driver', {
+                url: '/new-driver',
+                controller: 'UserController',
+                templateUrl: '/app/modules/user/register-driver.html'
             });
 
     }]);

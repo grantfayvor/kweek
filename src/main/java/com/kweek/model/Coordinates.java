@@ -12,6 +12,10 @@ public class Coordinates {
     private double lat;
     private double lng;
 
+    public Coordinates(){
+
+    }
+
     public Coordinates(Driver driver) {
         this.lat = driver.getLat();
         this.lng = driver.getLng();
@@ -55,9 +59,7 @@ public class Coordinates {
 
     @Override
     public String toString() {
-        return "Coordinates{" +
-                "latitude=" + lat +
-                ", longitude=" + lng +
-                '}';
+        return "latitude=" + lat +
+                "&longitude=" + lng +" ";
     }
 }

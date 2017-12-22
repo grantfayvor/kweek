@@ -45,6 +45,9 @@ public class User implements UserDetails, Serializable {
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     @Transient
     private List<Reservation> reservations;
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    @Transient
+    private List<Feedback> feedbacks;
 
     /**
      * Getter for property 'id'.
@@ -224,6 +227,24 @@ public class User implements UserDetails, Serializable {
      */
     public void setReservations(List<Reservation> reservations) {
         this.reservations = reservations;
+    }
+
+    /**
+     * Getter for property 'feedbacks'.
+     *
+     * @return Value for property 'feedbacks'.
+     */
+    public List<Feedback> getFeedbacks() {
+        return feedbacks;
+    }
+
+    /**
+     * Setter for property 'feedbacks'.
+     *
+     * @param feedbacks Value to set for property 'feedbacks'.
+     */
+    public void setFeedbacks(List<Feedback> feedbacks) {
+        this.feedbacks = feedbacks;
     }
 
     @Override

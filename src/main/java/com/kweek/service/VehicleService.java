@@ -13,9 +13,12 @@ import java.io.BufferedOutputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.math.BigInteger;
 import java.nio.file.FileSystems;
+import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 /**
  * Created by Harrison on 2017-01-24.
@@ -46,13 +49,14 @@ public class VehicleService extends KweekLoggerFactory implements ServiceInterfa
 
     public void saveVehicle(Vehicle vehicle) {
         String separator = FileSystems.getDefault().getSeparator();
-        String pathName = separator +"app" +separator +"images" +separator +vehicle.getBrand() +".jpg";
-        /*try {
-            OutputStream stream = new BufferedOutputStream(new FileOutputStream(pathName, false));
-            stream.write(vehicle.getImage());
+        String pathName = "/app/images/KWK" + new BigInteger(130, new SecureRandom()).toString(16)+ ".jpg";
+        try {
+            FileOutputStream outputStream = new FileOutputStream("src/main/resources/static" +pathName);
+            outputStream.write(vehicle.getImage());
+            outputStream.close();
         } catch (IOException e){
             e.printStackTrace();
-        }*/
+        }
         vehicle.setImageLocation(pathName);
         vehicleRepository.save(vehicle);
     }
@@ -79,6 +83,7 @@ public class VehicleService extends KweekLoggerFactory implements ServiceInterfa
 
     @Override
     public void delete(long id) {
+        vehicleRepository.delete(id);
     }
 
     @Override
